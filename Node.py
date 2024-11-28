@@ -1,0 +1,503 @@
+import socket
+import select
+import struct
+import json
+import time
+
+'''
+Structure of requests and responses
+
+1. Value Requests
+    type: value
+    var_name: The name of the variable
+    val: The value to be used (Optional)
+    get: True if get, False if set
+2. Function Requests
+    type: function
+    func_name: The function to be invoked
+    args: The arguments
+    asynch: means request is async, may have data attached (Optional)
+3. Value Responses
+    val: The value to be returned
+    success: True or False,
+4. Function Responses
+    val: The value to be returned
+    success: True or False
+'''
+
+mBit = 10
+
+name_server: dict[int, tuple[str, int]] = {
+    "KLuke": {
+        20: ("127.0.0.1", 9020),
+        110: ("127.0.0.1", 9110),
+        200: ("127.0.0.1", 9200),
+        290: ("127.0.0.1", 9290)
+    }
+}
+
+class Node:
+
+    def __init__(self, host: str, port: int, nodeId: int, name_server: str = "KLuke"):
+        self.host = host
+        self.port = port
+        self.master_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.master_sock.bind((self.host, self.port))
+        self.master_sock.listen()
+        self.name_server = name_server
+        # TODO Send update to the actual nameserver of its existence
+        self.host_port_to_sock: dict[tuple[str, int], socket.socket] = {} # map host/port tuple to a socket
+        self.sock_to_host_port: dict[socket.socket, tuple[str, int]] = {}
+
+        self.func = {}
+        self.func['find_successor'] = self.find_successor # locates the successor of a given node
+        self.func['find_predecessor'] = self.find_predecessor # locates the predecessor of a given node
+        self.func['create']         = self.create # advertises a new chord to the nameserver
+        self.func['join']           = self.join # invocated by a node to join the server, handles the finger table fixes and the stabilization algorithm
+        
+        # For testing purposes
+        self.func['test_rpc'] = self.test_rpc
+        self.func['lame_request'] = self.lame_request
+        # Important Data Structures
+        self.fingerTable = [None] * mBit # succ(2^i) where i is the index
+        self.nodeId = nodeId
+        self.host = host
+        self.port = port
+        self.successor = None
+        self.predecessor = None
+        self.storage = {}
+        self.ring_name = None
+
+    def read_and_respond(self, block=True):
+        if block:
+            readable, _, _ = select.select(list(self.host_port_to_sock.values()) + [self.master_sock], [], [])
+        else:
+            readable, _, _ = select.select(list(self.host_port_to_sock.values()) + [self.master_sock], [], [], 0)
+        for sock in readable:
+            if sock is self.master_sock:
+                connection, addr = sock.accept()
+                print(f"new connection from {addr}")
+                self.host_port_to_sock[addr] = connection
+                self.sock_to_host_port[connection] = addr
+            else:
+                try:
+                    length_header = b''
+                    while len(length_header) < 4:
+                        chunk = sock.recv(4 - len(length_header))
+                        if not chunk:
+                            raise EOFError("Socket connection broken")
+                        length_header += chunk
+                    m_length = struct.unpack('!I', length_header)[0]
+                    request = sock.recv(m_length)
+                    
+                    # get the remote request in json format
+                    request = json.loads(request.decode('utf-8'))
+                    response = {}
+                    # 2 types: value => request for value update
+                    # function => request to format some action
+                    print(request)
+                    if request['type'] == 'value':
+                        response = self.handle_value_request(request)      
+                    elif request['type'] == 'function':
+                        func_name = request['func_name']
+                        args = request['args']
+                        if "asynch" in request:
+                            args["asynch"] = request["asynch"]
+                        response = self.func[func_name](**args)
+                        print(f"sending back response of {response} from {func_name} {sock.getpeername()}")
+                    if "asynch" not in request: # only send response back if "asynch" not in it
+                        print("async not in request")
+                        # queue the response, do not send it back yet
+                        response_data = json.dumps(response).encode('utf-8')
+                        response_length = len(response_data)
+                        #response_queue[sock] = response_length + response_data  # Queue data to send
+
+                        sock.sendall(struct.pack('!I', response_length))
+                        sock.sendall(response_data)
+                        
+                except EOFError:
+                    #print(f"Client {peername} disconnected")
+                    sock.close()
+                    del self.host_port_to_sock[self.sock_to_host_port[sock]]
+                    del self.sock_to_host_port[sock]
+                except OSError as e:
+                    if e.errno == 9:
+                        # Ignore the Bad File Descriptor error
+                        pass  # Simply pass to ignore the error
+                except (ConnectionResetError, BrokenPipeError) as e:
+                    #print(f"Client {peername} disconnected unexpectedly: {e}")
+                    pass
+                except json.JSONDecodeError:
+                    pass
+                    #print(f"Received malformed JSON from {peername}")
+
+    def handle_value_request(self, request):
+        requested = request["var_name"]
+        get = request["get"]
+        response = {}
+        response['success'] = True
+        if requested == "all":
+            response["val"] = [
+                self.fingerTable,
+                self.nodeId,
+                self.host,
+                self.port,
+                self.successor,
+                self.predecessor,
+                self.storage,
+                self.ring_name,
+            ]
+        elif requested == "successor":
+            if get:
+                response["val"] = self.successor
+            else:
+                self.successor = request["val"]
+        elif requested == "predecessor":
+            if get:
+                response["val"] = self.predecessor
+            else:
+                self.predecessor = request["val"]
+        elif requested == "fingerTable":
+            if get:
+                response["val"] = self.fingerTable
+            else:
+                self.fingerTable = request["val"]
+        print(requested, get, request["val"] if "val" in request else None)
+        return response
+    
+    def listen(self):
+        while True:
+            self.read_and_respond()
+    
+    def send_request(self, request, host, port, wait_response=True):
+        while True:
+            print(f'sending request to {host} {port}')
+            try:
+                if (host, port) in self.host_port_to_sock:
+                    sock = self.host_port_to_sock[(host, port)]
+                else:
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((host, port))
+                    self.host_port_to_sock[(host, port)] = sock
+                    self.sock_to_host_port[sock] = (host, port)
+                # Send a request to the server
+                request_data = json.dumps(request).encode('utf-8')
+                request_length = len(request_data)
+                sock.sendall(struct.pack('!I', request_length))
+                sock.sendall(request_data)
+
+                print(f"[send_request] sending the request to {host} {port}, waiting for response")
+                # set a time out for receiving message
+                sock.settimeout(5)
+                # Receive the response from the server
+                if "asynch" not in request:
+                    length_header = b''
+                    while len(length_header) < 4:
+                        chunk = sock.recv(4 - len(length_header))
+                        length_header += chunk
+                    m_length = struct.unpack('!I', length_header)[0]
+                    response = sock.recv(m_length)
+                    response = json.loads(response.decode('utf-8'))
+                    print("[send_request] the response is ", response)
+                    return response
+                else:
+                    return None
+
+            except EOFError:
+                #print(f"Client {peername} disconnected")
+                sock.close()
+                del self.host_port_to_sock[self.sock_to_host_port[sock]]
+                del self.sock_to_host_port[sock]
+            except Exception as e:
+                print(str(e))
+                print('Unhandled exception')
+            finally:
+                self.read_and_respond(block=False)
+                
+    
+    '''
+    Everything here and below are functions that the node can execute on behalf of requests it receives
+    '''
+
+    def async_request(self, request, host, port):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
+            socke.bind((self.host, 0))
+            socke.listen()
+            while True:
+                try:
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((host, port))
+                    # Make sure the requests location is specified
+                    request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
+                    request_data = json.dumps(request).encode('utf-8')
+                    request_length = len(request_data)
+                    sock.sendall(struct.pack('!I', request_length))
+                    sock.sendall(request_data)
+                    # set a time out for receiving message
+                    socke.setblocking(False)
+                    
+                    # Receive the response from the server
+                    while True:
+                        try:
+                            connection, addr = socke.accept() # accept the eventual response
+                            connection.settimeout(5)
+                            length_header = b''
+                            while len(length_header) < 4:
+                                chunk = connection.recv(4 - len(length_header)) # recv from the new socket
+                                length_header += chunk
+                            m_length = struct.unpack('!I', length_header)[0]
+                            response = connection.recv(m_length)
+                            response = json.loads(response.decode('utf-8'))
+                            return response
+                        except Exception:
+                            self.read_and_respond(block=False)
+                            
+
+                except EOFError:
+                    #print(f"Client {peername} disconnected")
+                    sock.close()
+                    del self.host_port_to_sock[self.sock_to_host_port[sock]]
+                    del self.sock_to_host_port[sock]
+                except Exception as e:
+                    print(str(e))
+                    print('Unhandled exception')
+                finally:
+                    self.read_and_respond(block=False)
+                    
+
+
+    def lame_request(self):
+        '''
+        Returns a test response to test whether test_rpc can work. In conjunction with
+        test_rpc, can be used to test interleaved requests between two nodes. Callable
+        from the client. 
+        Parameters:
+            None
+        Returns:
+            A response object of type Function Response
+        '''
+        return {"val": "IM LAME", "success": True, "response": True}
+
+    def test_rpc(self, host, port):
+        '''
+        Transfers a lame request to a target specified by host and port. Typically can
+        be called through the client to make a dummy request on a second node through
+        a first node
+        Parameters:
+            host (string): The hostname
+            port (integer): The port
+        returns:
+            A response object of type Function Response (result of lame_response)
+        '''
+        request = {"type": "function", "args": {}, "func_name": "lame_request", "response": False}
+        return self.send_request(request, host, port)
+    
+    def find_successor(self, hash, asynch):  # successor of a node x defined: if node is y and pred(node) = z. If in interval (z, y]
+        print('successor function called')
+        '''
+        Recursively calls additional nodes on fingertable until successor of hash calls find_successor,
+        in which case it looks up the requesterID and communicates with it that it is it. Should be remotely
+        invoked with a async_request
+        Parameters:
+            asynch (str, int): requester hostname, requester temp port
+            hash (integer): The SHA-256 hash of the data
+        returns:
+            A response object containing a val object consisting of a hostname, port, and ID
+            to identify the successor of the hash
+        '''
+        if between_exc_inc(self.predecessor, self.nodeId, hash):
+            response = {}
+            response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
+                socke.connect(tuple(asynch))
+                response_data = json.dumps(response).encode('utf-8')
+                request_length = len(response_data)
+                socke.sendall(struct.pack('!I', request_length))
+                socke.sendall(response_data)
+            return None
+        elif between_exc_inc(self.nodeId, self.successor, hash):
+            response = {}
+            response = {"success": True, "val": {"port": "PLACEHOLDER", "hostname": "PLACEHOLDER", "nodeid": self.successor}}
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
+                socke.connect(tuple(asynch))
+                response_data = json.dumps(response).encode('utf-8')
+                request_length = len(response_data)
+                socke.sendall(struct.pack('!I', request_length))
+                socke.sendall(response_data)
+            return None
+        else:
+            for i in range(len(self.fingerTable) + 1):
+                # TODO
+                if i < len(self.fingerTable) and i >= 0:
+                    ft_i_id = self.fingerTable[i]
+                if i == len(self.fingerTable) or (ft_i_id is not None and ft_i_id in name_server[self.name_server].keys() and between_exc_inc(self.nodeId, self.fingerTable[i], hash)):
+                    args = {'hash': hash}
+                    host, port = name_server[self.name_server][self.fingerTable[i-1 if i >= 1 else 0]]
+                    request = {"type": "function", "func_name": "find_successor", "args": args, "asynch": asynch}
+                    response = self.send_request(request, host, port)
+                    return response
+
+    def find_predecessor(self, hash, asynch):
+        print(self.fingerTable)
+        print(hash)
+        if between_inc_exc(self.nodeId, self.successor, hash):
+            print(self.nodeId, self.successor, hash)
+            response = {}
+            response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
+                print(asynch)
+                socke.connect(tuple(asynch))
+                response_data = json.dumps(response).encode('utf-8')
+                request_length = len(response_data)
+                socke.sendall(struct.pack('!I', request_length))
+                socke.sendall(response_data)
+            return None
+        if between_inc_exc(self.predecessor, self.nodeId, hash):
+            response = {}
+            response = {"success": True, "val": {"port": "PLACEHOLDER", "hostname": "PLACEHOLDER", "nodeid": self.predecessor}}
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
+                print(asynch)
+                socke.connect(tuple(asynch))
+                response_data = json.dumps(response).encode('utf-8')
+                request_length = len(response_data)
+                socke.sendall(struct.pack('!I', request_length))
+                socke.sendall(response_data)
+            return None
+        else:
+            for i in range(len(self.fingerTable) + 1):
+                # TODO
+                if i < len(self.fingerTable) and i >= 0:
+                    ft_i_id = self.fingerTable[i]
+                if i == len(self.fingerTable) or (ft_i_id is not None and ft_i_id in name_server[self.name_server].keys() and between_inc_exc(self.nodeId, self.fingerTable[i], hash)):
+                    print(i)
+                    args = {'hash': hash}
+                    not_found = False
+                    if self.fingerTable[i-1 if i >= 1 else 0] != None:
+                        host, port = name_server[self.name_server][self.fingerTable[i-1 if i >= 1 else 0]] 
+                    else:
+                        not_found = True
+                    if not_found or (host, port) == (self.host, self.port):
+                        host, port = name_server[self.name_server][self.predecessor]
+                    print(self.predecessor)
+                    request = {"type": "function", "func_name": "find_predecessor", "args": args, "asynch": asynch}
+                    response = self.send_request(request, host, port)
+                    return response
+
+        #type: function
+        #func_name: The function to be invoked
+        #args: The arguments
+        #asynch: the host and port to send to
+
+
+    
+    def create(self, name = "KLuke"):
+        '''
+        Creates an entry in the Notre Dame nameserver that is the name of our new Chord node
+        Parameters:
+            name (string): The name desired
+        returns:
+            A response of type Function Response indicaing success/failure
+        '''
+        # TODO: Advertise to nameserver
+        self.successor = self.nodeId
+        self.predecessor = self.nodeId
+        self.fingerTable = [None] * mBit
+        self.ring_name = name
+
+    def join(self, name = "KLuke"):
+        '''
+        Invocated by the node joining the Chord. Updates the corresponding attributes
+        and issues requests for other Nodes to also update
+        Parameters:
+            name (string): The name of the nameserver
+        Returns:
+            A response of type Function Response indicating success/failure
+        '''
+        # TODO: Request a random node from nameserver
+        random_node = name_server[name][20]
+        '''
+        The following updates the successor and predecessor pointers and the successor's predecessor and predecessor's successor
+        '''
+        request = {"type": "function", "func_name": "find_successor", "args": {"hash": self.nodeId}}
+        response = self.async_request(request, *random_node) # this find's the successor which is this node's successor
+        print(response)
+        if response["success"] == True:
+            self.successor = response["val"]["nodeid"]
+        pred_request = {"type": "value", "var_name": "predecessor", "get": True} # this finds the successor's predecessor which is now this node's predecessor
+        response = self.send_request(pred_request, *name_server[name][self.successor])
+        if response["success"] == True:
+            print(response)
+            self.predecessor = response["val"]
+        update_request = {"type": "value", "var_name": "predecessor", "get": False, "val": self.nodeId} # this makes the successor's predecessor this node
+        response = self.send_request(update_request, *name_server[name][self.successor])
+
+        update_request = {"type": "value", "var_name": "successor", "get": False, "val": self.nodeId} # this makes the current node's predecessor's successor this node
+        response = self.send_request(update_request, *name_server[name][self.predecessor])
+        '''
+        Update the predecessor for all nodes
+        '''
+        # first update own fingertable
+        for i in range(len(self.fingerTable)):
+            request = {"type": "function", "func_name": "find_successor", "args": {"hash": (self.nodeId + 2**i) % 1024}}
+            response = self.async_request(request, *random_node)
+            self.fingerTable[i] = response["val"]["nodeid"]
+            print(response)
+        print('ft', self.fingerTable)
+        # Then update other fingertables
+        for i in range(len(self.fingerTable)):
+            # find the predecessor
+            request = {"type": "function", "func_name": "find_predecessor", "args": {"hash": (self.nodeId - 2**i) % 1024}}
+            print('ndid', self.nodeId - 2**i)
+            response = self.async_request(request, *random_node)
+            predecessor = response["val"]["nodeid"]
+            print(predecessor)
+            while True:
+                if predecessor == self.nodeId:
+                    break
+                # get its fingerTable
+                # if finger table entry at i is less than node, then pass
+                request = {"type": "value", "var_name": "fingerTable", "get": True}
+                response = self.send_request(request, *name_server[name][predecessor])
+                curr_val = response["val"][i]
+                if curr_val != None and not between_inc_exc((predecessor + 2**i) % 1024, curr_val, self.nodeId):
+                    break
+                else: # else, update it and also try the predecessor of that
+                    new_ft = response["val"]
+                    new_ft[i] = self.nodeId
+                    request = {"type": "value", "var_name": "fingerTable", "val": new_ft, "get": False}
+                    response = self.send_request(request, *name_server[name][predecessor])
+                    request = {"type": "value", "var_name": "predecessor", "get": True}
+                    response = self.send_request(request, *name_server[name][predecessor])
+                    predecessor = response["val"]
+
+        new_response = {"success": True, "val": None}
+
+        return new_response
+
+
+def between(ID1, ID2, key):
+    if ID1 == ID2:
+        return True
+    wrap = ID1 > ID2
+    if not wrap:
+        return True if key > ID1 and key <= ID2 else False
+    else:
+        return True if key > ID1 or  key <= ID2 else False
+
+def between_inc_exc(ID1, ID2, key): # inclusive, exclusive [)
+    if ID1 == ID2:
+        return True
+    wrap = ID1 > ID2
+    if not wrap:
+        return True if key >= ID1 and key < ID2 else False
+    else:
+        return True if key >= ID1 or  key < ID2 else False
+    
+def between_exc_inc(ID1, ID2, key): # inclusive, exclusive (]
+    if ID1 == ID2:
+        return True
+    wrap = ID1 > ID2
+    if not wrap:
+        return True if key > ID1 and key <= ID2 else False
+    else:
+        return True if key > ID1 or key <= ID2 else False
