@@ -5,6 +5,9 @@ import json
 import time
 import hashlib
 from collections.abc import Iterable
+import os
+import time
+import ast  # For safely evaluating strings like "[1, 2, 3]"
 
 '''
 Structure of requests and responses
@@ -77,6 +80,11 @@ class Node:
         self.predecessor = None
         self.storage = {}
         self.ring_name = None
+
+        # checkpoint and logging
+        self.logSize = 0
+        self.logFile = open("sheet.log", "a")
+        #self._recover()
 
     def read_and_respond(self, block=True):
         if block:
@@ -162,23 +170,28 @@ class Node:
                 response["val"] = self.successor
             else:
                 self.successor = request["val"]
+                self.add_to_log("successor", request["val"])
         elif requested == "predecessor":
             if get:
                 response["val"] = self.predecessor
             else:
                 self.predecessor = request["val"]
+                self.add_to_log("predecessor", request["val"])
         elif requested == "fingerTable":
             if get:
                 response["val"] = self.fingerTable
             else:
                 self.fingerTable = request["val"]
+                self.add_to_log("fingerTable", request["val"])
         elif requested == 'storage': 
             if get:
                 response["val"] = self.storage[request["val"]]
             elif request["val"][0] == "RESTRICTED_FOR_DELETE0x0x0":
                 del self.storage[request["val"][1]]
+                self.add_to_log("storage", request["val"][1], "delete")
             else:
                 self.storage[request["val"][0]] = request["val"][1] # val should look like ("key", "value")
+                self.add_to_log("storage", request["val"][0], "update", request["val"][1])
         print("storage", self.storage)
         return response
     
@@ -429,9 +442,12 @@ class Node:
         '''
         # TODO: Advertise to nameserver
         self.successor = self.nodeId
+        self.add_to_log("successor", self.nodeId)
         self.predecessor = self.nodeId
+        self.add_to_log("predecessor", self.nodeId)
         self.fingerTable = [None] * mBit
         self.ring_name = name
+        self.add_to_log("ring_name", self.ring_name)
 
     def join(self, name = "KLuke"):
         '''
@@ -452,11 +468,13 @@ class Node:
         print(response)
         if response["success"] == True:
             self.successor = response["val"]["nodeid"]
+            self.add_to_log("successor", response["val"]["nodeid"])
         pred_request = {"type": "value", "var_name": "predecessor", "get": True} # this finds the successor's predecessor which is now this node's predecessor
         response = self.send_request(pred_request, *name_server[name][self.successor])
         if response["success"] == True:
             print(response)
             self.predecessor = response["val"]
+            self.add_to_log("predecessor", response["val"])
         update_request = {"type": "value", "var_name": "predecessor", "get": False, "val": self.nodeId} # this makes the successor's predecessor this node
         response = self.send_request(update_request, *name_server[name][self.successor])
 
@@ -497,11 +515,13 @@ class Node:
             node_q = (self.nodeId + 2**i) % 2**mBit
             if between_exc_inc(self.nodeId, self.successor, node_q):
                 self.fingerTable[i] = self.successor
+                self.add_to_log("fingerTable", self.fingerTable)
             else:
                 request = {"type": "function", "func_name": "find_successor", "args": {"hash": node_q}}
                 print((self.nodeId + 2**i) % 2**mBit)
                 response = self.async_request(request, *random_node)
                 self.fingerTable[i] = response["val"]["nodeid"]
+                self.add_to_log("fingerTable", self.fingerTable)
                 print(response)
         print('ft', self.fingerTable)
 
@@ -511,11 +531,101 @@ class Node:
             print(response["val"])
             for key, value in response["val"].items():
                 self.storage[key] = value
-
+                self.add_to_log("storage", key, "update", value)
+  
         new_response = {"success": True, "val": None}
 
         return new_response
+    
+    def _recover(self):
+        if os.path.exists("sheet.ckpt"):
+            with open("sheet.ckpt", "r") as file:
+                checkpoint = json.load(file)
+                self.fingerTable = json.loads(checkpoint["fingerTable"])
+                self.successor = int(checkpoint["successor"])
+                self.predecessor = int(checkpoint["successor"])
+                self.ring_name = checkpoint["ring_name"]
 
+                json_storage = checkpoint["storage"]
+                storage = {}
+                for key, value in json_storage.items():
+                    try:
+                        original_key = ast.literal_eval(key)
+                    except:
+                        original_key = key
+                    
+                    storage[original_key] = value
+                
+                self.storage = storage
+        
+        if os.path.exists("sheet.log"):
+            with open("sheet.log", "r") as file:
+                for line in file:
+                    self.logSize += 1
+                    operations = line.split(",")
+                    attribute = operations[0]
+                    value = operations[1]
+                    action = operations[2]
+                    key_value = operations[3]
+                    if attribute == "fingertable":
+                        self.fingerTable = json.loads(value)
+                    elif attribute == "successor":
+                        self.successor = int(value)
+                    elif attribute == "predecessor":
+                        self.predecessor = int(value)
+                    elif attribute == "ring_name":
+                        self.ring_name = value
+                    elif attribute == "storage":
+                        # the value is string now, convert it to corresponding type of key
+                        try:
+                            original_key = ast.literal_eval(value)
+                        except:
+                            original_key = value
+
+                        if action == "delete":
+                            del self.storage[original_key]
+                        elif action == "update":
+                            try:
+                                original_value = ast.literal_eval(key_value)
+                            except:
+                                original_value = key_value
+                            self.storage[original_key] = original_value
+                    else:
+                        print("unknow method in the transaction log: ", attribute)
+
+    # if the attribute is storage, then action can be delete or update, and key_value is the value of the key when action is update
+    def add_to_log(self, attribute, value, action=None, key_value=None):
+        self.logFile.write(f"{attribute},{value},{action},{key_value},{time.time()}\n")
+        self.logFile.flush()
+        os.fsync(self.logFile.fileno())
+        self.logSize += 1
+
+        self.compact()
+    
+    def compact(self):
+        if self.logSize == 100:
+            with open("sheet.ckpt.new", "w") as file:
+                checkpoint_new = {}
+                checkpoint_new["fingerTable"] = self.fingerTable
+                checkpoint_new["successor"] = self.successor
+                checkpoint_new["predecessor"] = self.predecessor
+                json_storage = {}
+                for key, value in self.storage.items():
+                    json_storage[str(key)] = value # the key can be iterable, not string or int
+                checkpoint_new["storage"] = json_storage
+                checkpoint_new["ring_name"] = self.ring_name
+                json.dump(checkpoint_new, file)
+                file.flush()
+                os.fsync(file.fileno())
+            
+            if os.path.exists("sheet.ckpt"):
+                os.remove("sheet.ckpt")
+            os.rename("sheet.ckpt.new", "sheet.ckpt")
+            if os.path.exists("sheet.log"):
+                os.remove("sheet.log")
+            self.logFile = open("sheet.log", "a")
+
+            self.logSize = 0
 
 def between_inc_inc(ID1, ID2, key):
     if ID1 == ID2:
