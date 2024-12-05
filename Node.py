@@ -3,6 +3,8 @@ import select
 import struct
 import json
 import time
+import hashlib
+from collections.abc import Iterable
 
 '''
 Structure of requests and responses
@@ -32,7 +34,8 @@ name_server: dict[int, tuple[str, int]] = {
         20: ("127.0.0.1", 9020),
         110: ("127.0.0.1", 9110),
         200: ("127.0.0.1", 9200),
-        290: ("127.0.0.1", 9290)
+        290: ("127.0.0.1", 9290),
+        900: ("127.0.0.1", 9900)
     }
 }
 
@@ -54,6 +57,13 @@ class Node:
         self.func['find_predecessor'] = self.find_predecessor # locates the predecessor of a given node
         self.func['create']         = self.create # advertises a new chord to the nameserver
         self.func['join']           = self.join # invocated by a node to join the server, handles the finger table fixes and the stabilization algorithm
+        self.func["send_items"] = self.send_items
+        self.func['request_items'] = self.request_items
+
+    #   self.func['leave']
+        '''
+        TODO
+        '''
         
         # For testing purposes
         self.func['test_rpc'] = self.test_rpc
@@ -162,7 +172,14 @@ class Node:
                 response["val"] = self.fingerTable
             else:
                 self.fingerTable = request["val"]
-        print(requested, get, request["val"] if "val" in request else None)
+        elif requested == 'storage': 
+            if get:
+                response["val"] = self.storage[request["val"]]
+            elif request["val"][0] == "RESTRICTED_FOR_DELETE0x0x0":
+                del self.storage[request["val"][1]]
+            else:
+                self.storage[request["val"][0]] = request["val"][1] # val should look like ("key", "value")
+        print("storage", self.storage)
         return response
     
     def listen(self):
@@ -264,7 +281,19 @@ class Node:
                 finally:
                     self.read_and_respond(block=False)
                     
-
+    def send_items(self, hash_range):
+        transfer = {}
+        for key in self.storage:
+            key_hash = hash_it(key) % 2**mBit
+            if between_inc_inc(hash_range[0], hash_range[1], key_hash):
+                transfer[key] = self.storage[key]
+        response = {"val": transfer, "success": True}
+        return response
+    
+    def request_items(self, host, port, hash_range):
+        request = {"type": "function", "func_name": "send_items", "args": {"hash_range": hash_range}}
+        response = self.send_request(request, host, port)
+        return response
 
     def lame_request(self):
         '''
@@ -305,6 +334,7 @@ class Node:
             A response object containing a val object consisting of a hostname, port, and ID
             to identify the successor of the hash
         '''
+        print(self.predecessor, self.nodeId, self.successor)
         if between_exc_inc(self.predecessor, self.nodeId, hash):
             response = {}
             response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
@@ -338,7 +368,6 @@ class Node:
                     return response
 
     def find_predecessor(self, hash, asynch):
-        print(self.fingerTable)
         print(hash)
         if between_inc_exc(self.nodeId, self.successor, hash):
             print(self.nodeId, self.successor, hash)
@@ -436,17 +465,10 @@ class Node:
         '''
         Update the predecessor for all nodes
         '''
-        # first update own fingertable
-        for i in range(len(self.fingerTable)):
-            request = {"type": "function", "func_name": "find_successor", "args": {"hash": (self.nodeId + 2**i) % 1024}}
-            response = self.async_request(request, *random_node)
-            self.fingerTable[i] = response["val"]["nodeid"]
-            print(response)
-        print('ft', self.fingerTable)
         # Then update other fingertables
         for i in range(len(self.fingerTable)):
             # find the predecessor
-            request = {"type": "function", "func_name": "find_predecessor", "args": {"hash": (self.nodeId - 2**i) % 1024}}
+            request = {"type": "function", "func_name": "find_predecessor", "args": {"hash": (self.nodeId - 2**i) % 2**mBit}}
             print('ndid', self.nodeId - 2**i)
             response = self.async_request(request, *random_node)
             predecessor = response["val"]["nodeid"]
@@ -459,7 +481,7 @@ class Node:
                 request = {"type": "value", "var_name": "fingerTable", "get": True}
                 response = self.send_request(request, *name_server[name][predecessor])
                 curr_val = response["val"][i]
-                if curr_val != None and not between_inc_exc((predecessor + 2**i) % 1024, curr_val, self.nodeId):
+                if curr_val != None and not between_inc_exc((predecessor + 2**i) % 2**mBit, curr_val, self.nodeId):
                     break
                 else: # else, update it and also try the predecessor of that
                     new_ft = response["val"]
@@ -469,20 +491,40 @@ class Node:
                     request = {"type": "value", "var_name": "predecessor", "get": True}
                     response = self.send_request(request, *name_server[name][predecessor])
                     predecessor = response["val"]
+                    
+        # first update own fingertable
+        for i in range(len(self.fingerTable)):
+            node_q = (self.nodeId + 2**i) % 2**mBit
+            if between_exc_inc(self.nodeId, self.successor, node_q):
+                self.fingerTable[i] = self.successor
+            else:
+                request = {"type": "function", "func_name": "find_successor", "args": {"hash": node_q}}
+                print((self.nodeId + 2**i) % 2**mBit)
+                response = self.async_request(request, *random_node)
+                self.fingerTable[i] = response["val"]["nodeid"]
+                print(response)
+        print('ft', self.fingerTable)
+
+        # Finally, handle transfer over to this node
+        response = self.request_items(*name_server[name][self.successor], (self.predecessor + 1, self.nodeId))
+        if response["success"] == True:
+            print(response["val"])
+            for key, value in response["val"].items():
+                self.storage[key] = value
 
         new_response = {"success": True, "val": None}
 
         return new_response
 
 
-def between(ID1, ID2, key):
+def between_inc_inc(ID1, ID2, key):
     if ID1 == ID2:
         return True
     wrap = ID1 > ID2
     if not wrap:
-        return True if key > ID1 and key <= ID2 else False
+        return True if key >= ID1 and key <= ID2 else False
     else:
-        return True if key > ID1 or  key <= ID2 else False
+        return True if key >= ID1 or  key <= ID2 else False
 
 def between_inc_exc(ID1, ID2, key): # inclusive, exclusive [)
     if ID1 == ID2:
@@ -501,3 +543,32 @@ def between_exc_inc(ID1, ID2, key): # inclusive, exclusive (]
         return True if key > ID1 and key <= ID2 else False
     else:
         return True if key > ID1 or key <= ID2 else False
+    
+def hash_it(obj): # currently can only hash ints and floats and tuples, returns raw int
+    if isinstance(obj, int) or isinstance(obj, str):
+        if isinstance(obj, int):
+            bytes = struct.pack('>I', obj)
+        else:
+            bytes = obj.encode('utf-8')
+        hash_obj = hashlib.sha256()
+        hash_obj.update(bytes)
+        hex_string = hash_obj.hexdigest()
+        hash_val = int(hex_string, 16)
+        print(f"hash of {obj}", hash_val % 1024)
+        return hash_val
+    if isinstance(obj, Iterable):
+        total = 0
+        for ele in obj:
+            if isinstance(ele, int) or isinstance(ele, str):
+                hash_num = hash_it(ele)
+                total += hash_num
+            else:
+                print("Contained element is not hashable")
+                return None
+        return total
+    else:
+        print("Key is not hashable")
+        return None
+
+
+        
