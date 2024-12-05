@@ -59,6 +59,7 @@ class Node:
         self.func['join']           = self.join # invocated by a node to join the server, handles the finger table fixes and the stabilization algorithm
         self.func["send_items"] = self.send_items
         self.func['request_items'] = self.request_items
+        self.func['confirm_items'] = self.confirm_items
 
     #   self.func['leave']
         '''
@@ -82,6 +83,7 @@ class Node:
         if block:
             readable, _, _ = select.select(list(self.host_port_to_sock.values()) + [self.master_sock], [], [])
         else:
+            # the function will perform a non-blocking check
             readable, _, _ = select.select(list(self.host_port_to_sock.values()) + [self.master_sock], [], [], 0)
         for sock in readable:
             if sock is self.master_sock:
@@ -234,6 +236,8 @@ class Node:
     
     '''
     Everything here and below are functions that the node can execute on behalf of requests it receives
+    The first node that initialize the request will use async_request() because it can return the response back
+    It will attach "asynch" into the request, so the send_request() called by other nodes will not be blocked
     '''
 
     def async_request(self, request, host, port):
@@ -285,13 +289,31 @@ class Node:
         transfer = {}
         for key in self.storage:
             key_hash = hash_it(key) % 2**mBit
-            if between_inc_inc(hash_range[0], hash_range[1], key_hash):
+            # do not pop data now because the transfer message may not be sent back successfully
+            # if pop it now, the data can be lost forever. the requester will later send a confirmation message to confirm that it has received the data
+            if between_inc_inc(hash_range[0], hash_range[1], key_hash): 
                 transfer[key] = self.storage[key]
         response = {"val": transfer, "success": True}
         return response
     
     def request_items(self, host, port, hash_range):
         request = {"type": "function", "func_name": "send_items", "args": {"hash_range": hash_range}}
+        response = self.send_request(request, host, port)
+        return response
+    
+    def delete_items(self, hash_range):
+        for key in self.storage:
+            key_hash = hash_it(key) % 2**mBit
+            # do not pop data now because the transfer message may not be sent back successfully
+            # if pop it now, the data can be lost forever. the requester will later send a confirmation message to confirm that it has received the data
+            if between_inc_inc(hash_range[0], hash_range[1], key_hash): 
+                del self.storage[key]
+        
+        response = {"success": True}
+        return response
+
+    def confirm_items(self, host, port, hash_range):
+        request = {"type": "function", "func_name": "delete_items", "args": {"hash_range": hash_range}}
         response = self.send_request(request, host, port)
         return response
 
@@ -511,6 +533,11 @@ class Node:
             print(response["val"])
             for key, value in response["val"].items():
                 self.storage[key] = value
+        
+        # send the confirmation message to the successor to confirm that it has received the new data
+        response = self.confirm_items(*name_server[name][self.successor], (self.predecessor + 1, self.nodeId))
+        if response["success"] == True:
+            print("confirm message successfully")
 
         new_response = {"success": True, "val": None}
 
