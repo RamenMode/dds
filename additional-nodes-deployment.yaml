@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: additional-nodes
+spec:
+  replicas: 0 # No additional nodes (the second and later nodes) initially
+  selector:
+    matchLabels:
+      app: additional-node
+  template:
+    metadata:
+      labels:
+        app: additional-node
+    spec:
+      containers:
+        - name: additional-node
+          image: lukewarm3/node_server_image:latest
+          env:
+            - name: NODE_HOST
+              value: "127.0.0.1" # the host is localhost for now
+            - name: NODE_PORT
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name # Use pod name to derive a unique port
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid # Use unique pod ID as node ID
+            - name: IS_BOOTSTRAP
+              value: "false"
+            - name: BOOTSTRAP_PORT
+              value: "9020" # Bootstrap node port
+          resources:
+            requests:
+              cpu: "1000m" # Request 1 CPU, need to change this value to find the appropriate CPU load to avoid unnecessary HPA scaling
+            limits:
+              cpu: "1000m" # Limit to 1 CPU
