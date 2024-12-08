@@ -744,6 +744,7 @@ class Node:
                 self.name_server = self.read_nameserver()
             if not first_time:
                 print("Trying to find nameserver entry")
+                print(key)
                 time.sleep(1)
             first_time = False
 
