@@ -208,9 +208,11 @@ class Node:
                 self.add_to_log("fingerTable", request["val"])
         elif requested == 'storage': 
             if get:
-                response["val"] = self.storage[request["val"]]
+                response["val"] = self.storage[request["val"]] if request["val"] in self.storage else None
             elif request["val"][0] == "RESTRICTED_FOR_DELETE0x0x0":
-                del self.storage[request["val"][1]]
+                print("prepare", self.storage)
+                if request["val"][1] in self.storage:
+                    del self.storage[request["val"][1]]
                 self.add_to_log("storage", request["val"][1], "delete")
             else:
                 self.storage[request["val"][0]] = request["val"][1] # val should look like ("key", "value")
