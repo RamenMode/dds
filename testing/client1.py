@@ -1,4 +1,8 @@
-from ..RingClient import RingClient, name_server
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from RingClient import RingClient, name_server
 
 del name_server["KLuke"][900]
 

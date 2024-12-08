@@ -2,7 +2,7 @@ import socket
 import json
 import struct
 import random
-from .Node import hash_it
+from Node import hash_it
 
 name_server: dict[int, tuple[str, int]] = {
     "KLuke": {
@@ -26,7 +26,11 @@ class RingClient:
     
     def choose_node(self):
         # TODO contact the nameserver
-        return random.choice(list(name_server[self.name].keys()))
+
+        # just return server with node id 20 for now
+        return 20
+
+        #return random.choice(list(name_server[self.name].keys()))
     
     def obtain_successor(self, key):
         hash_val = hash_it(key) % 1024
