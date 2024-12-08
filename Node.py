@@ -8,6 +8,8 @@ from collections.abc import Iterable
 import os
 import time
 import ast  # For safely evaluating strings like "[1, 2, 3]"
+import signal
+import http.client
 
 '''
 Structure of requests and responses
@@ -42,6 +44,57 @@ name_server: dict[int, tuple[str, int]] = {
     }
 }
 
+name_of_chord = None
+name_of_port = None
+nodeid_global = None
+
+nameserver_json_gen = lambda project, port, nodeid: {
+        "type": "distsys-data-store",
+        "owner": nodeid,
+        "port": port,
+        "project": project,
+        "width": 120,
+        "height": 16
+    }
+
+def read_nameserver(name):
+    counter = 0
+    # Retry lookup with exponential time for retries
+    while True:
+        try:
+            conn = http.client.HTTPConnection("catalog.cse.nd.edu", 9097)
+            conn.request('GET', '/query.json')
+            raw = conn.getresponse()
+            all_projects = json.loads(raw.read().decode('utf-8'))
+            collection = []
+            for proj in all_projects:
+                if proj["type"] == "distsys-data-store" and proj["project"] == name:
+                    collection.append(proj)
+            if collection:
+                break
+        except KeyboardInterrupt:
+            exit(1)
+        except:
+            pass
+        time.sleep(2**counter)
+        counter += 1
+        print('Attempting reconnect to name server...')
+    latest = 0
+    newest = None
+    for entry in collection:
+        if entry["lastheardfrom"] > latest:
+            latest = entry["lastheardfrom"]
+            newest = entry
+    return newest
+
+def send_to_nameserver(signum, frame):
+    if name_of_port:
+        name_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        payload = nameserver_json_gen(name_of_chord, name_of_port, nodeid_global)
+        name_server_socket.sendto(json.dumps(payload).encode('utf-8'), ("catalog.cse.nd.edu", 9097))
+        name_server_socket.close()
+
+
 class Node:
 
     def __init__(self, host: str, port: int, nodeId: int, name_server: str = "KLuke"):
@@ -51,9 +104,14 @@ class Node:
         self.master_sock.bind((self.host, self.port))
         self.master_sock.listen()
         self.name_server = name_server
-        # TODO Send update to the actual nameserver of its existence
         self.host_port_to_sock: dict[tuple[str, int], socket.socket] = {} # map host/port tuple to a socket
         self.sock_to_host_port: dict[socket.socket, tuple[str, int]] = {}
+        global name_of_chord
+        global name_of_port
+        global nodeid_global
+        name_of_chord = name_server
+        name_of_port = port
+        nodeid_global = nodeId
 
         self.func = {}
         self.func['find_successor'] = self.find_successor # locates the successor of a given node
@@ -63,12 +121,9 @@ class Node:
         self.func["send_items"] = self.send_items
         self.func['request_items'] = self.request_items
         self.func['confirm_items'] = self.confirm_items
+        self.func['delete_items'] = self.delete_items
 
     #   self.func['leave']
-        '''
-        TODO
-        '''
-        
         # For testing purposes
         self.func['test_rpc'] = self.test_rpc
         self.func['lame_request'] = self.lame_request
@@ -315,7 +370,7 @@ class Node:
         return response
     
     def delete_items(self, hash_range):
-        for key in self.storage:
+        for key in self.storage.copy():
             key_hash = hash_it(key) % 2**mBit
             # do not pop data now because the transfer message may not be sent back successfully
             # if pop it now, the data can be lost forever. the requester will later send a confirmation message to confirm that it has received the data
@@ -392,7 +447,6 @@ class Node:
             return None
         else:
             for i in range(len(self.fingerTable) + 1):
-                # TODO
                 if i < len(self.fingerTable) and i >= 0:
                     ft_i_id = self.fingerTable[i]
                 if i == len(self.fingerTable) or (ft_i_id is not None and ft_i_id in name_server[self.name_server].keys() and between_exc_inc(self.nodeId, self.fingerTable[i], hash)):
@@ -429,7 +483,6 @@ class Node:
             return None
         else:
             for i in range(len(self.fingerTable) + 1):
-                # TODO
                 if i < len(self.fingerTable) and i >= 0:
                     ft_i_id = self.fingerTable[i]
                 if i == len(self.fingerTable) or (ft_i_id is not None and ft_i_id in name_server[self.name_server].keys() and between_inc_exc(self.nodeId, self.fingerTable[i], hash)):
@@ -452,7 +505,6 @@ class Node:
         #args: The arguments
         #asynch: the host and port to send to
 
-
     
     def create(self, name = "KLuke"):
         '''
@@ -463,6 +515,7 @@ class Node:
             A response of type Function Response indicaing success/failure
         '''
         # TODO: Advertise to nameserver
+
         self.successor = self.nodeId
         self.add_to_log("successor", self.nodeId)
         self.predecessor = self.nodeId
@@ -470,6 +523,11 @@ class Node:
         self.fingerTable = [None] * mBit
         self.ring_name = name
         self.add_to_log("ring_name", self.ring_name)
+
+        signal.signal(signal.SIGALRM, send_to_nameserver)
+        signal.setitimer(signal.ITIMER_REAL, 0.1, 60)
+
+
 
     def join(self, name = "KLuke"):
         '''
@@ -559,6 +617,10 @@ class Node:
         response = self.confirm_items(*name_server[name][self.successor], (self.predecessor + 1, self.nodeId))
         if response["success"] == True:
             print("confirm message successfully")
+
+        # let the nameserver know that this node now exists
+        signal.signal(signal.SIGALRM, send_to_nameserver)
+        signal.setitimer(signal.ITIMER_REAL, 0.1, 60)
         
         new_response = {"success": True, "val": None}
 
