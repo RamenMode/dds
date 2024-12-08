@@ -3,53 +3,47 @@ import json
 import struct
 import random
 from .Node import hash_it
-
-name_server: dict[int, tuple[str, int]] = {
-    "KLuke": {
-        20: ("127.0.0.1", 9020),
-        110: ("127.0.0.1", 9110),
-        200: ("127.0.0.1", 9200),
-        290: ("127.0.0.1", 9290),
-        900: ("127.0.0.1", 9900)
-    }
-}
+from collections import defaultdict
+import time
+import http.client
 
 class RingClient:
 
     def __init__(self, name: str = "KLuke"):
         self.name = name
-        self.host = '127.0.0.1'
+        self.host = '0.0.0.0'
+        self.chord_name = name
+        self.name_server = self._retrieve_nodes()
     
     def _retrieve_nodes(self):
-        # TODO Implement a Real Nameserver
-        return name_server[self.name]
+        return self.read_nameserver()
     
     def choose_node(self):
         # TODO contact the nameserver
-        return random.choice(list(name_server[self.name].keys()))
+        return random.choice(list(self.name_server[self.name].keys()))
     
     def obtain_successor(self, key):
         hash_val = hash_it(key) % 1024
         request = {"type": "function", "func_name": "find_successor", "args": {"hash": hash_val}}
-        response = self.async_request(request, *name_server[self.name][self.choose_node()])
+        response = self.async_request(request, *self.name_server[self.name][self.choose_node()])
         return response["val"]["nodeid"]
     
     def update(self, key, value):
         server = self.obtain_successor(key)
         request = {"type": "value", "var_name": "storage", "val": (key, value), "get": False}
-        response = self.send_request(request, *name_server[self.name][server])
+        response = self.send_request(request, *self.name_server[self.name][server])
         return response['success']
 
     def query(self, key):
         server = self.obtain_successor(key)
         request = {"type": "value", "var_name": "storage", "val": key, "get": True}
-        response = self.send_request(request, *name_server[self.name][server])
+        response = self.send_request(request, *self.name_server[self.name][server])
         return response["val"]
         
     def delete(self, key):
         server = self.obtain_successor(key)
         request = {"type": "value", "var_name": "storage", "val": ("RESTRICTED_FOR_DELETE0x0x0", key), "get": False}
-        response = self.send_request(request, *name_server[self.name][server])
+        response = self.send_request(request, *self.name_server[self.name][server])
         return response["val"]
 
     def test_comm_rpc(self, caller, callee):
@@ -130,3 +124,34 @@ class RingClient:
             except Exception as e:
                 print(str(e))
                 print('Unhandled exception')
+
+    def read_nameserver(self):
+        counter = 0
+        # Retry lookup with exponential time for retries
+        while True:
+            try:
+                conn = http.client.HTTPConnection("catalog.cse.nd.edu", 9097)
+                conn.request('GET', '/query.json')
+                raw = conn.getresponse()
+                all_projects = json.loads(raw.read().decode('utf-8'))
+                collection = []
+                for proj in all_projects:
+                    if "type" in proj and proj["type"] == "distsys-data-store" and "owner" in proj and proj["owner"] == "kxue2" and "project" in proj and proj["project"] == self.chord_name:
+                        collection.append(proj)
+                if collection:
+                    break
+            except KeyboardInterrupt:
+                exit(1)
+            except Exception as e:
+                print(str(e))
+                pass
+            time.sleep(2**counter)
+            counter += 1
+            print('Attempting reconnect to name server...')
+        latest = defaultdict(int)
+        name_server = {self.chord_name: {}}
+        for entry in collection:
+            if entry["lastheardfrom"] > latest[entry["nodeid"]]:
+                latest[entry["nodeid"]] = entry["lastheardfrom"]
+                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"])
+        return name_server

@@ -10,6 +10,8 @@ import time
 import ast  # For safely evaluating strings like "[1, 2, 3]"
 import signal
 import http.client
+from collections import defaultdict
+import random
 
 '''
 Structure of requests and responses
@@ -34,58 +36,19 @@ Structure of requests and responses
 
 mBit = 10
 
-name_server: dict[int, tuple[str, int]] = {
-    "KLuke": {
-        20: ("127.0.0.1", 9020),
-        110: ("127.0.0.1", 9110),
-        200: ("127.0.0.1", 9200),
-        290: ("127.0.0.1", 9290),
-        900: ("127.0.0.1", 9900)
-    }
-}
-
 name_of_chord = None
 name_of_port = None
 nodeid_global = None
 
 nameserver_json_gen = lambda project, port, nodeid: {
         "type": "distsys-data-store",
-        "owner": nodeid,
+        "owner": "kxue2",
+        "nodeid": nodeid,
         "port": port,
         "project": project,
         "width": 120,
         "height": 16
     }
-
-def read_nameserver(name):
-    counter = 0
-    # Retry lookup with exponential time for retries
-    while True:
-        try:
-            conn = http.client.HTTPConnection("catalog.cse.nd.edu", 9097)
-            conn.request('GET', '/query.json')
-            raw = conn.getresponse()
-            all_projects = json.loads(raw.read().decode('utf-8'))
-            collection = []
-            for proj in all_projects:
-                if proj["type"] == "distsys-data-store" and proj["project"] == name:
-                    collection.append(proj)
-            if collection:
-                break
-        except KeyboardInterrupt:
-            exit(1)
-        except:
-            pass
-        time.sleep(2**counter)
-        counter += 1
-        print('Attempting reconnect to name server...')
-    latest = 0
-    newest = None
-    for entry in collection:
-        if entry["lastheardfrom"] > latest:
-            latest = entry["lastheardfrom"]
-            newest = entry
-    return newest
 
 def send_to_nameserver(signum, frame):
     if name_of_port:
@@ -103,15 +66,17 @@ class Node:
         self.master_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.master_sock.bind((self.host, self.port))
         self.master_sock.listen()
-        self.name_server = name_server
+        self.chord_name = name_server
         self.host_port_to_sock: dict[tuple[str, int], socket.socket] = {} # map host/port tuple to a socket
         self.sock_to_host_port: dict[socket.socket, tuple[str, int]] = {}
+        self.name_server = {}
         global name_of_chord
         global name_of_port
         global nodeid_global
         name_of_chord = name_server
         name_of_port = port
         nodeid_global = nodeId
+        
 
         self.func = {}
         self.func['find_successor'] = self.find_successor # locates the successor of a given node
@@ -122,6 +87,7 @@ class Node:
         self.func['request_items'] = self.request_items
         self.func['confirm_items'] = self.confirm_items
         self.func['delete_items'] = self.delete_items
+        self.func['update_local_nameserver'] = self.update_local_nameserver
 
     #   self.func['leave']
         # For testing purposes
@@ -384,6 +350,12 @@ class Node:
         request = {"type": "function", "func_name": "delete_items", "args": {"hash_range": hash_range}}
         response = self.send_request(request, host, port)
         return response
+    
+    def update_local_nameserver(self):
+        self.name_server = self.read_nameserver()
+        print('updated local nameserver', self.name_server)
+        response = {"val": None, "success": True}
+        return response
 
     def lame_request(self):
         '''
@@ -449,9 +421,9 @@ class Node:
             for i in range(len(self.fingerTable) + 1):
                 if i < len(self.fingerTable) and i >= 0:
                     ft_i_id = self.fingerTable[i]
-                if i == len(self.fingerTable) or (ft_i_id is not None and ft_i_id in name_server[self.name_server].keys() and between_exc_inc(self.nodeId, self.fingerTable[i], hash)):
+                if i == len(self.fingerTable) or (ft_i_id is not None and ft_i_id in self.name_server[self.chord_name].keys() and between_exc_inc(self.nodeId, self.fingerTable[i], hash)):
                     args = {'hash': hash}
-                    host, port = name_server[self.name_server][self.fingerTable[i-1 if i >= 1 else 0]]
+                    host, port = self.safely_retrieve_nameserver_entry(self.fingerTable[i-1 if i >= 1 else 0])
                     request = {"type": "function", "func_name": "find_successor", "args": args, "asynch": asynch}
                     response = self.send_request(request, host, port)
                     return response
@@ -485,16 +457,16 @@ class Node:
             for i in range(len(self.fingerTable) + 1):
                 if i < len(self.fingerTable) and i >= 0:
                     ft_i_id = self.fingerTable[i]
-                if i == len(self.fingerTable) or (ft_i_id is not None and ft_i_id in name_server[self.name_server].keys() and between_inc_exc(self.nodeId, self.fingerTable[i], hash)):
+                if i == len(self.fingerTable) or (ft_i_id is not None and ft_i_id in self.name_server[self.chord_name].keys() and between_inc_exc(self.nodeId, self.fingerTable[i], hash)):
                     print(i)
                     args = {'hash': hash}
                     not_found = False
                     if self.fingerTable[i-1 if i >= 1 else 0] != None:
-                        host, port = name_server[self.name_server][self.fingerTable[i-1 if i >= 1 else 0]] 
+                        host, port = self.safely_retrieve_nameserver_entry(self.fingerTable[i-1 if i >= 1 else 0])
                     else:
                         not_found = True
                     if not_found or (host, port) == (self.host, self.port):
-                        host, port = name_server[self.name_server][self.predecessor]
+                        host, port = self.safely_retrieve_nameserver_entry(self.predecessor)
                     print(self.predecessor)
                     request = {"type": "function", "func_name": "find_predecessor", "args": args, "asynch": asynch}
                     response = self.send_request(request, host, port)
@@ -539,7 +511,23 @@ class Node:
             A response of type Function Response indicating success/failure
         '''
         # TODO: Request a random node from nameserver
-        random_node = name_server[name][20]
+        self.update_local_nameserver()
+        random_node = random.choice(list(self.name_server[name].values()))
+        print(random_node)
+
+        # let the nameserver know that this node now exists
+        signal.signal(signal.SIGALRM, send_to_nameserver)
+        signal.setitimer(signal.ITIMER_REAL, 0.1, 60)
+
+        time.sleep(0) # check for signals to process
+
+        # Tell other nameservers to update
+        for nodeid in self.name_server[self.chord_name]:
+            if self.nodeId != nodeid:
+                print("TELLING", nodeid)
+                response = self.send_request({'type': "function", "func_name": "update_local_nameserver", "args": {}}, *self.safely_retrieve_nameserver_entry(nodeid))
+                print(f'told {nodeid} to update nameserver')  
+        
         '''
         The following updates the successor and predecessor pointers and the successor's predecessor and predecessor's successor
         '''
@@ -550,16 +538,17 @@ class Node:
             self.successor = response["val"]["nodeid"]
             self.add_to_log("successor", response["val"]["nodeid"])
         pred_request = {"type": "value", "var_name": "predecessor", "get": True} # this finds the successor's predecessor which is now this node's predecessor
-        response = self.send_request(pred_request, *name_server[name][self.successor])
+        response = self.send_request(pred_request, *self.safely_retrieve_nameserver_entry(self.successor))
         if response["success"] == True:
             print(response)
             self.predecessor = response["val"]
             self.add_to_log("predecessor", response["val"])
         update_request = {"type": "value", "var_name": "predecessor", "get": False, "val": self.nodeId} # this makes the successor's predecessor this node
-        response = self.send_request(update_request, *name_server[name][self.successor])
+        response = self.send_request(update_request, *self.safely_retrieve_nameserver_entry(self.successor))
 
         update_request = {"type": "value", "var_name": "successor", "get": False, "val": self.nodeId} # this makes the current node's predecessor's successor this node
-        response = self.send_request(update_request, *name_server[name][self.predecessor])
+        print(self.name_server)
+        response = self.send_request(update_request, *self.safely_retrieve_nameserver_entry(self.predecessor))
         '''
         Update the predecessor for all nodes
         '''
@@ -577,7 +566,7 @@ class Node:
                 # get its fingerTable
                 # if finger table entry at i is less than node, then pass
                 request = {"type": "value", "var_name": "fingerTable", "get": True}
-                response = self.send_request(request, *name_server[name][predecessor])
+                response = self.send_request(request, *self.safely_retrieve_nameserver_entry(predecessor))
                 curr_val = response["val"][i]
                 if curr_val != None and not between_inc_exc((predecessor + 2**i) % 2**mBit, curr_val, self.nodeId):
                     break
@@ -585,9 +574,9 @@ class Node:
                     new_ft = response["val"]
                     new_ft[i] = self.nodeId
                     request = {"type": "value", "var_name": "fingerTable", "val": new_ft, "get": False}
-                    response = self.send_request(request, *name_server[name][predecessor])
+                    response = self.send_request(request, *self.safely_retrieve_nameserver_entry(predecessor))
                     request = {"type": "value", "var_name": "predecessor", "get": True}
-                    response = self.send_request(request, *name_server[name][predecessor])
+                    response = self.send_request(request, *self.safely_retrieve_nameserver_entry(predecessor))
                     predecessor = response["val"]
                     
         # first update own fingertable
@@ -606,7 +595,7 @@ class Node:
         print('ft', self.fingerTable)
 
         # Finally, handle transfer over to this node
-        response = self.request_items(*name_server[name][self.successor], (self.predecessor + 1, self.nodeId))
+        response = self.request_items(*self.safely_retrieve_nameserver_entry(self.successor), (self.predecessor + 1, self.nodeId))
         if response["success"] == True:
             print(response["val"])
             for key, value in response["val"].items():
@@ -614,13 +603,12 @@ class Node:
                 self.add_to_log("storage", key, "update", value)
   
         # send the confirmation message to the successor to confirm that it has received the new data
-        response = self.confirm_items(*name_server[name][self.successor], (self.predecessor + 1, self.nodeId))
+        response = self.confirm_items(*self.safely_retrieve_nameserver_entry(self.successor), (self.predecessor + 1, self.nodeId))
         if response["success"] == True:
             print("confirm message successfully")
 
-        # let the nameserver know that this node now exists
-        signal.signal(signal.SIGALRM, send_to_nameserver)
-        signal.setitimer(signal.ITIMER_REAL, 0.1, 60)
+        # update local nameserver again
+        self.update_local_nameserver()
         
         new_response = {"success": True, "val": None}
 
@@ -715,6 +703,50 @@ class Node:
             self.logFile = open("sheet.log", "a")
 
             self.logSize = 0
+
+    def read_nameserver(self):
+        counter = 0
+        # Retry lookup with exponential time for retries
+        while True:
+            try:
+                conn = http.client.HTTPConnection("catalog.cse.nd.edu", 9097)
+                conn.request('GET', '/query.json')
+                raw = conn.getresponse()
+                all_projects = json.loads(raw.read().decode('utf-8'))
+                collection = []
+                for proj in all_projects:
+                    if "type" in proj and proj["type"] == "distsys-data-store" and "owner" in proj and proj["owner"] == "kxue2" and "project" in proj and proj["project"] == self.chord_name:
+                        collection.append(proj)
+                if collection:
+                    break
+            except KeyboardInterrupt:
+                exit(1)
+            except Exception as e:
+                print(str(e))
+                pass
+            time.sleep(2**counter)
+            counter += 1
+            print('Attempting reconnect to name server...')
+        latest = defaultdict(int)
+        name_server = {self.chord_name: {}}
+        for entry in collection:
+            if entry["lastheardfrom"] > latest[entry["nodeid"]]:
+                latest[entry["nodeid"]] = entry["lastheardfrom"]
+                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"])
+        return name_server
+
+    def safely_retrieve_nameserver_entry(self, key):
+        first_time = True
+        while True:
+            if key in self.name_server[self.chord_name]:
+                return self.name_server[self.chord_name][key]
+            else:
+                self.name_server = self.read_nameserver()
+            if not first_time:
+                print("Trying to find nameserver entry")
+                time.sleep(1)
+            first_time = False
+
 
 def between_inc_inc(ID1, ID2, key):
     if ID1 == ID2:

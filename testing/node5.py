@@ -1,7 +1,8 @@
 from ..Node import Node
-from ..RingClient import RingClient, name_server
+from ..RingClient import RingClient
 
-node4 = Node('127.0.0.1', 9380, 380)
-for key in name_server["KLuke"]:
+node4 = Node('0.0.0.0', 9380, 380, "d4")
+name_server = node4.read_nameserver()
+for key in name_server[node4.chord_name]:
     print(f"Node {key} =====================")
-    print(node4.send_request({"type": "value", "var_name": "all", "get": False}, *name_server["KLuke"][key]))
+    print(node4.send_request({"type": "value", "var_name": "all", "get": False}, *name_server[node4.chord_name][key]))

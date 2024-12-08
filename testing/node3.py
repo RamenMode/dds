@@ -1,6 +1,6 @@
 from ..Node import Node
-from ..RingClient import RingClient, name_server
+from ..RingClient import RingClient
 
-node3 = Node('127.0.0.1', 9200, 200)
-node3.join()
+node3 = Node('0.0.0.0', 9200, 200, "d4")
+node3.join("d4")
 node3.listen()
