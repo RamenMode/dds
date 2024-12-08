@@ -38,13 +38,14 @@ class RingClient:
         server = self.obtain_successor(key)
         request = {"type": "value", "var_name": "storage", "val": key, "get": True}
         response = self.send_request(request, *self.name_server[self.name][server])
+        print(response)
         return response["val"]
         
     def delete(self, key):
         server = self.obtain_successor(key)
         request = {"type": "value", "var_name": "storage", "val": ("RESTRICTED_FOR_DELETE0x0x0", key), "get": False}
         response = self.send_request(request, *self.name_server[self.name][server])
-        return response["val"]
+        return response["success"]
 
     def test_comm_rpc(self, caller, callee):
 

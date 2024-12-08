@@ -210,6 +210,7 @@ class Node:
             if get:
                 response["val"] = self.storage[request["val"]]
             elif request["val"][0] == "RESTRICTED_FOR_DELETE0x0x0":
+                print("prepare", self.storage)
                 del self.storage[request["val"][1]]
                 self.add_to_log("storage", request["val"][1], "delete")
             else:
