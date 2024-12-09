@@ -19,7 +19,9 @@ spec:
             - name: NODE_HOST
               value: "127.0.0.1"
             - name: NODE_PORT
-              value: "9020"
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name # Use pod name to derive a unique port
             - name: NODE_ID
               value: "20"
           ports:

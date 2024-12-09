@@ -191,6 +191,10 @@ class Node:
                 self.storage,
                 self.ring_name,
             ]
+        elif requested == "nodeId":
+            if get:
+                response["val"] = self.nodeId
+
         elif requested == "successor":
             if get:
                 response["val"] = self.successor
