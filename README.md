@@ -56,4 +56,10 @@ kubectl get pods
 // see the print statement in the pod
 kubectl logs <pod_name>
 
+// describe the deployment
+kubectl describe deployment nodes
+
+// describe the deployment of the pod
+kubectl describe pod <pod-name>
+
 ```
