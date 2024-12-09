@@ -492,7 +492,7 @@ class Node:
             A response of type Function Response indicaing success/failure
         '''
         # TODO: Advertise to nameserver
-
+        logging.info("create the node in the chord")
         self.successor = self.nodeId
         self.add_to_log("successor", self.nodeId)
         self.predecessor = self.nodeId
@@ -503,7 +503,7 @@ class Node:
 
         signal.signal(signal.SIGALRM, send_to_nameserver)
         signal.setitimer(signal.ITIMER_REAL, 0.1, 60)
-
+        logging.info("set signals to send self node's information to the name server")
 
 
     def join(self, name = "KLuke"):

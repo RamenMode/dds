@@ -48,7 +48,7 @@ Useful commands
 kubectl exec -it <pod_name> -- /bin/sh
 
 // stop the k8 deployment
-kubectl delete -f deployment.yaml
+kubectl delete -f node-deployment.yaml
 
 // confirm the pods are running
 kubectl get pods

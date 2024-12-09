@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy all .py files from the current directory and subdirectories into the container
 COPY ./*.py .
 COPY ./testing/*.py ./testing/
+COPY ./testing/groupAnagrams/* ./testing/groupAnagrams/
 
 # Install any dependencies (if required)
 # Uncomment the lines below if you have a requirements.txt file
@@ -14,4 +15,4 @@ COPY ./testing/*.py ./testing/
 # RUN pip install -r requirements.txt
 
 # Command to run when the container starts
-CMD ["python", "node_client.py"]
+CMD ["python", "node_server.py"]
