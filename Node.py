@@ -12,6 +12,7 @@ import signal
 import http.client
 from collections import defaultdict
 import random
+import logging
 
 '''
 Structure of requests and responses
@@ -33,6 +34,8 @@ Structure of requests and responses
     val: The value to be returned
     success: True or False
 '''
+
+logging.basicConfig(level=logging.INFO)
 
 mBit = 10
 
@@ -117,7 +120,7 @@ class Node:
         for sock in readable:
             if sock is self.master_sock:
                 connection, addr = sock.accept()
-                print(f"new connection from {addr}")
+                logging.info(f"new connection from {addr}")
                 self.host_port_to_sock[addr] = connection
                 self.sock_to_host_port[connection] = addr
             else:
