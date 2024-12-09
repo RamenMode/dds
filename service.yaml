@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodes-service
+spec:
+  clusterIP: None  # Headless service
+  selector:
+    app: node  # Matches pods with this label
+  ports:
+    - protocol: TCP
+      port: 9000  # the port the service is on
+      targetPort: 9200  # the port the node server uses --> ALL the node needs to use this port

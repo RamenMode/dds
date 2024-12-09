@@ -16,12 +16,19 @@ spec:
         - name: node
           image: lukewarm3/node_server_image:latest
           env:
-            - name: NODE_HOST
-              value: "127.0.0.1"
-            - name: NODE_PORT
+            - name: CLUSTER_SERVICE_HOST
+              value: "nodes-service"
+            - name: CLUSTER_SERVICE_PORT
+              value: "9000"
+
+            # - name: NODE_HOST
+            #   value: "0.0.0.0" # bind to 0.0.0.0 instead of 127.0.0.1
+            - name: NODE_IP
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name # Use pod name to derive a unique port
+                  fieldPath: status.podIP
+            - name: NODE_PORT
+              value: "9020"
             - name: NODE_ID
               value: "20"
           ports:
