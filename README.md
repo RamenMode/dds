@@ -38,6 +38,8 @@ kubectl apply -f node-deployment.yaml
 
 kubectl apply -f hpa.yaml
 
+kubectl scale deployment nodes --replicas=2
+
 // Simulate high CPU load on one pod to trigger autoscaling
 kubectl exec -it <pod_name> -- stress --cpu 2
 ```

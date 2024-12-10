@@ -9,4 +9,4 @@ spec:
   ports:
     - protocol: TCP
       port: 9000  # the port the service is on
-      targetPort: 9200  # the port the node server uses --> ALL the node needs to use this port
+      targetPort: 9020  # the port the node server uses --> ALL the node needs to use this port

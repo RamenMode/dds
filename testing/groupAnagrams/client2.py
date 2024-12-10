@@ -1,7 +1,7 @@
 from ...RingClient import RingClient
 from typing import List
 
-r = RingClient("ring8")
+r = RingClient("ring11")
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
