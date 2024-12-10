@@ -41,11 +41,12 @@ logging.basicConfig(level=logging.INFO)
 mBit = 10
 
 name_of_chord = None
+name_of_pod = None
 name_of_port = None
 name_of_host = None
 nodeid_global = None
 
-nameserver_json_gen = lambda project, host, port, nodeid: {
+nameserver_json_gen = lambda project, host, port, nodeid, pod: {
         "type": "distsys-data-store",
         "owner": "kxue2",
         "nodeid": nodeid,
@@ -53,20 +54,21 @@ nameserver_json_gen = lambda project, host, port, nodeid: {
         "host": host,
         "project": project,
         "width": 120,
-        "height": 16
+        "height": 16,
+        "pod_name": pod
     }
 
 def send_to_nameserver(signum, frame):
     if name_of_port:
         name_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        payload = nameserver_json_gen(name_of_chord, name_of_host, name_of_port, nodeid_global)
+        payload = nameserver_json_gen(name_of_chord, name_of_host, name_of_port, nodeid_global, name_of_pod)
         name_server_socket.sendto(json.dumps(payload).encode('utf-8'), ("catalog.cse.nd.edu", 9097))
         name_server_socket.close()
 
 
 class Node:
 
-    def __init__(self, host: str, port: int, nodeId: int, name_server: str = "KLuke"):
+    def __init__(self, host: str, port: int, nodeId: int, pod_name: str = None, name_server: str = "KLuke"):
         self.host = host
         self.port = port
         self.master_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -77,10 +79,12 @@ class Node:
         self.sock_to_host_port: dict[socket.socket, tuple[str, int]] = {}
         self.name_server = {}
         global name_of_chord
+        global name_of_pod
         global name_of_port
         global name_of_host
         global nodeid_global
         name_of_chord = name_server
+        name_of_pod = pod_name
         name_of_port = port
         name_of_host = host
         nodeid_global = nodeId

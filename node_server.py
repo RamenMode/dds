@@ -10,27 +10,45 @@ from Node import Node # Assuming your Node class is in node_module
 import requests
 from kubernetes import client, config
 from kubernetes.client.rest import ApiException
+# from kubernetes.client import ApiClient
+# from kubernetes.client.apis import metrics_v1beta1_api
 
 logging.basicConfig(level=logging.INFO)
 
 def check_if_bootstrap():
-    try:
-        conn = http.client.HTTPConnection("catalog.cse.nd.edu", 9097)
-        conn.request('GET', '/query.json')
-        raw = conn.getresponse()
-        all_projects = json.loads(raw.read().decode('utf-8'))
-        for proj in all_projects:
-            if "type" in proj and proj["type"] == "distsys-data-store" and "owner" in proj and proj["owner"] == "kxue2" and "project" in proj and proj["project"] == chord_name:
-                # we find one node in the name server
-                return False
-            
-    except KeyboardInterrupt:
-        exit(1)
-    except Exception as e:
-        logging.info(str(e))
-        pass
-    
-    return True
+    while True:
+        try:
+            conn = http.client.HTTPConnection("catalog.cse.nd.edu", 9097)
+            conn.request('GET', '/query.json')
+            raw = conn.getresponse()
+            all_projects = json.loads(raw.read().decode('utf-8'))
+            for proj in all_projects:
+                if "type" in proj and proj["type"] == "distsys-data-store" and "owner" in proj and proj["owner"] == "kxue2" and "project" in proj and proj["project"] == chord_name:
+                    # we find one node in the name server
+                    return False
+            return True
+        except KeyboardInterrupt:
+            exit(1)
+        except Exception as e:
+            logging.info(str(e))
+            pass
+
+def get_ip(pod_name):
+    while True:
+        try:
+            conn = http.client.HTTPConnection("catalog.cse.nd.edu", 9097)
+            conn.request('GET', '/query.json')
+            raw = conn.getresponse()
+            all_projects = json.loads(raw.read().decode('utf-8'))
+            for proj in all_projects:
+                if "type" in proj and proj["type"] == "distsys-data-store" and "owner" in proj and proj["owner"] == "kxue2"\
+                      and "project" in proj and proj["project"] == chord_name and "pod_name" in proj and proj["pod_name"] == pod_name:
+                    return (proj["host"], proj["port"])
+            return None
+        except KeyboardInterrupt:
+            exit(1)
+        except Exception as e:
+            logging.info(str(e))
 
 def send_request(request, host, port):
     while True:
@@ -81,6 +99,7 @@ def get_pod_cpu_usage(threshold_percentage=60):
         )
 
         for pod in metrics["items"]:
+            logging.info(f"the pod is {pod}")
             pod_name = pod["metadata"]["name"]
             cpu_usage = pod["containers"][0]["usage"]["cpu"]
             pod_cpu_limit = "100m"
@@ -94,7 +113,7 @@ def get_pod_cpu_usage(threshold_percentage=60):
 
             # Check if utilization exceeds threshold
             if utilization > threshold_percentage:
-                print(f"Pod {pod_name} exceeds CPU threshold with {utilization}%")
+                logging.info(f"Pod {pod_name} exceeds CPU threshold with {utilization}%")
                 return pod_name  # Return the first pod exceeding the threshold
 
     except ApiException as e:
@@ -168,6 +187,14 @@ metrics_client = client.CustomObjectsApi()
 core_client = client.CoreV1Api()
 apps_v1 = client.AppsV1Api()
 autoscaling_v1 = client.AutoscalingV2Api()
+# api_client = ApiClient()
+# metrics_api = metrics_v1beta1_api.MetricsV1beta1Api(api_client)
+
+# # Example: Get metrics for all nodes
+# nodes_metrics = metrics_api.list_node_metrics()
+# for node in nodes_metrics.items:
+#     logging.info(f"node is {node}")
+#     logging.info(f"Node: {node.metadata.name}, CPU usage: {node.usage['cpu']}, Memory usage: {node.usage['memory']}")
 
 
 logging.info(f"the node ip is {NODE_IP}")
@@ -176,17 +203,18 @@ if not NODE_IP:
     logging.info("cannot get node ip")
     exit(1)
 
-NODE_PORT = os.getenv("NODE_PORT", "node-abc")
+POD_NAME = os.getenv("NODE_PORT", "node-abc")
 NODE_ID = os.getenv("NODE_ID", 20)        # Default: 20
 
 # CLUSTER_SERVICE_HOST = os.getenv("CLUSTER_SERVICE_HOST", "nodes-service")
 # CLUSTER_SERVICE_PORT = int(os.getenv("CLUSTER_SERVICE_PORT", "9000"))
 
 # NODE_PORT is nodes-<random-string>, need to change it to a unique int value
+logging.info(f"the metadata name is {POD_NAME}")
 BASE_PORT = 9000
-NODE_PORT = BASE_PORT + int(hashlib.md5(NODE_PORT.encode()).hexdigest(), 16) % 1000 
+NODE_PORT = BASE_PORT + int(hashlib.md5(POD_NAME.encode()).hexdigest(), 16) % 1000 
 
-chord_name = "ring7"
+chord_name = "ring-3"
 
 logging.info(f"testing")
 
@@ -201,7 +229,7 @@ if is_bootstrap:
     logging.info(f"Starting bootstrap node on {NODE_IP}:{9020} with ID {20}, chord name is {chord_name}")
     
     #node = Node(NODE_HOST, NODE_PORT, 20)
-    node = Node(NODE_IP, 9020, 20, chord_name)
+    node = Node(NODE_IP, 9020, 20, POD_NAME, chord_name)
     #post_request(CLUSTER_SERVICE_HOST, CLUSTER_SERVICE_PORT, NODE_IP)
     node.create(chord_name)
 
@@ -236,9 +264,12 @@ else:
     pod_name = get_pod_cpu_usage(threshold_percentage=20)
     if not pod_name:
         exit(1)
-    result = get_env_variables(pod_name, namespace="default")
-    exceeding_node_host = result["NODE_IP"]
-    exceeding_node_port = result["NODE_PORT"]
+    
+    result = get_ip(pod_name)
+    if result:
+        exceeding_node_host, exceeding_node_port = result
+    else:
+        exit(1)
 
     logging.info(f"sending request to {exceeding_node_host} {exceeding_node_port}")
     # fake_exceeding_node_port = 'nodes-2'
@@ -258,7 +289,7 @@ else:
     #post_request(CLUSTER_SERVICE_HOST, CLUSTER_SERVICE_PORT, NODE_IP)
 
     logging.info(f"Starting additional node on {NODE_IP}:{NODE_PORT} with ID {new_nodeId}") # node id is wrong for now
-    node = Node(NODE_IP, NODE_PORT, new_nodeId, chord_name)
+    node = Node(NODE_IP, NODE_PORT, new_nodeId, POD_NAME, chord_name)
     node.join(chord_name)
     #update_hpa_min_replicas(deployment_name="nodes", hpa_name="nodes-autoscaler", namespace="default")
 

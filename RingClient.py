@@ -6,14 +6,17 @@ from .Node import hash_it
 from collections import defaultdict
 import time
 import http.client
+import logging
+from time import sleep
 
 class RingClient:
 
-    def __init__(self, name: str = "KLuke"):
+    def __init__(self, name: str = "KLuke", host='0.0.0.0'):
         self.name = name
-        self.host = '0.0.0.0'
+        self.host = host
         self.chord_name = name
         self.name_server = self._retrieve_nodes()
+        logging.info(f"name server is {self.name_server}")
     
     def _retrieve_nodes(self):
         return self.read_nameserver()
@@ -86,6 +89,7 @@ class RingClient:
             except Exception as e:
                 print(str(e))
                 print('Unhandled exception')
+                sleep(5)
 
     def async_request(self, request, host, port):
         while True:
@@ -95,6 +99,7 @@ class RingClient:
                     socke.listen()
                     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     sock.connect((host, port))
+                    logging.info(f"Trying socket to {host} {port} {sock} {socke}")
                     # Make sure the requests location is specified
                     request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
                     request_data = json.dumps(request).encode('utf-8')
@@ -125,6 +130,7 @@ class RingClient:
             except Exception as e:
                 print(str(e))
                 print('Unhandled exception')
+                sleep(5)
 
     def read_nameserver(self):
         counter = 0
@@ -154,5 +160,5 @@ class RingClient:
         for entry in collection:
             if entry["lastheardfrom"] > latest[entry["nodeid"]]:
                 latest[entry["nodeid"]] = entry["lastheardfrom"]
-                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"])
+                name_server[self.chord_name][entry["nodeid"]] = (entry["host"], entry["port"])
         return name_server
