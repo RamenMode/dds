@@ -99,7 +99,7 @@ class RingClient:
                     socke.listen()
                     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     sock.connect((host, port))
-                    logging.info(f"Trying socket to {host} {port} {sock} {socke}")
+                    #logging.info(f"Trying socket to {host} {port} {sock} {socke}")
                     # Make sure the requests location is specified
                     request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
                     request_data = json.dumps(request).encode('utf-8')

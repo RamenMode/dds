@@ -62,7 +62,7 @@ def send_request(request, host, port):
             sock.sendall(struct.pack('!I', request_length))
             sock.sendall(request_data)
 
-            logging.info(f"[send_request] sending the request to {host} {port}, waiting for response")
+            #logging.info(f"[send_request] sending the request to {host} {port}, waiting for response")
             # set a time out for receiving message
             sock.settimeout(5)
             
@@ -74,7 +74,7 @@ def send_request(request, host, port):
             m_length = struct.unpack('!I', length_header)[0]
             response = sock.recv(m_length)
             response = json.loads(response.decode('utf-8'))
-            logging.info("[send_request] the response is ", response)
+            #logging.info("[send_request] the response is ", response)
             return response
         except EOFError:
             #logging.info(f"Client {peername} disconnected")
@@ -89,6 +89,9 @@ def get_pod_cpu_usage(threshold_percentage=60):
     """
     Get pods exceeding the specified CPU utilization threshold as a percentage.
     """
+    largest_load_pod = ""
+    largest_load = 0
+
     try:
         # Query metrics API for pod resource usage
         metrics = metrics_client.list_namespaced_custom_object(
@@ -99,7 +102,7 @@ def get_pod_cpu_usage(threshold_percentage=60):
         )
 
         for pod in metrics["items"]:
-            logging.info(f"the pod is {pod}")
+            #logging.info(f"the pod is {pod}")
             pod_name = pod["metadata"]["name"]
             cpu_usage = pod["containers"][0]["usage"]["cpu"]
             pod_cpu_limit = "100m"
@@ -111,10 +114,17 @@ def get_pod_cpu_usage(threshold_percentage=60):
             # Calculate utilization
             utilization = (usage_m / limit_m) * 100 if limit_m else 0
 
+            if utilization > largest_load:
+                largest_load_pod = pod_name
+                largest_load = utilization
+
             # Check if utilization exceeds threshold
             if utilization > threshold_percentage:
                 logging.info(f"Pod {pod_name} exceeds CPU threshold with {utilization}%")
                 return pod_name  # Return the first pod exceeding the threshold
+            
+            # if cannot have the pod that has exceeding load, return the pod that has the largest utilization
+            return largest_load_pod
 
     except ApiException as e:
         print(f"Exception when calling Kubernetes API: {e}")
@@ -129,49 +139,6 @@ def convert_to_millicores(cpu_value):
     else:  # Full cores
         return int(cpu_value) * 1000
 
-def get_env_variables(pod_name, namespace="default"):
-    """
-    Retrieve the values of NODE_IP and NODE_PORT environment variables from the specified pod.
-    Args:
-        pod_name (str): The name of the pod.
-        namespace (str): The namespace of the pod.
-    Returns:
-        dict: A dictionary containing the environment variable names and their values.
-    """
-    try:
-        pod = core_client.read_namespaced_pod(name=pod_name, namespace=namespace)
-        # Extract NODE_IP and NODE_PORT values
-        node_ip = pod.status.pod_ip  # NODE_IP is set to the pod's IP
-        node_port = pod.metadata.name  # NODE_PORT uses the pod's name dynamically
-        
-        return {
-            "NODE_IP": node_ip,
-            "NODE_PORT": node_port
-        }
-    except client.exceptions.ApiException as e:
-        print(f"Error retrieving pod {pod_name}: {e}")
-        return {}
-
-def update_hpa_min_replicas(deployment_name, hpa_name, namespace="default"):
-    """
-    Updates the minReplicas in the HorizontalPodAutoscaler to match the number of running replicas.
-    """
-    try:
-        # Get the current Deployment replica count
-        deployment = apps_v1.read_namespaced_deployment(name=deployment_name, namespace=namespace)
-        current_replicas = deployment.spec.replicas
-        # Get the current HPA configuration
-        hpa = autoscaling_v1.read_namespaced_horizontal_pod_autoscaler(name=hpa_name, namespace=namespace)
-        
-        # Update the minReplicas to match current replicas
-        hpa.spec.min_replicas = current_replicas
-        autoscaling_v1.replace_namespaced_horizontal_pod_autoscaler(name=hpa_name, namespace=namespace, body=hpa)
-        
-        print(f"Updated minReplicas in HPA '{hpa_name}' to {current_replicas}.")
-    except Exception as e:
-        print(f"Error updating HPA: {e}")
-
-
 # Get configuration from environment variables
 NODE_IP = os.getenv("NODE_IP")
 # Load Kubernetes configuration
@@ -184,23 +151,11 @@ except:
     config.load_kube_config()
     print("Using kube-config file.")
 metrics_client = client.CustomObjectsApi()
-core_client = client.CoreV1Api()
-apps_v1 = client.AppsV1Api()
-autoscaling_v1 = client.AutoscalingV2Api()
-# api_client = ApiClient()
-# metrics_api = metrics_v1beta1_api.MetricsV1beta1Api(api_client)
 
-# # Example: Get metrics for all nodes
-# nodes_metrics = metrics_api.list_node_metrics()
-# for node in nodes_metrics.items:
-#     logging.info(f"node is {node}")
-#     logging.info(f"Node: {node.metadata.name}, CPU usage: {node.usage['cpu']}, Memory usage: {node.usage['memory']}")
-
-
-logging.info(f"the node ip is {NODE_IP}")
+#logging.info(f"the node ip is {NODE_IP}")
 
 if not NODE_IP:
-    logging.info("cannot get node ip")
+    #logging.info("cannot get node ip")
     exit(1)
 
 POD_NAME = os.getenv("NODE_PORT", "node-abc")
@@ -210,13 +165,11 @@ NODE_ID = os.getenv("NODE_ID", 20)        # Default: 20
 # CLUSTER_SERVICE_PORT = int(os.getenv("CLUSTER_SERVICE_PORT", "9000"))
 
 # NODE_PORT is nodes-<random-string>, need to change it to a unique int value
-logging.info(f"the metadata name is {POD_NAME}")
+#logging.info(f"the metadata name is {POD_NAME}")
 BASE_PORT = 9000
 NODE_PORT = BASE_PORT + int(hashlib.md5(POD_NAME.encode()).hexdigest(), 16) % 1000 
 
 chord_name = "ring-3"
-
-logging.info(f"testing")
 
 # check if this is the first node
 is_bootstrap = check_if_bootstrap()
@@ -240,27 +193,9 @@ if is_bootstrap:
 else:
     # Join an existing network
     BOOTSTRAP_PORT = int(os.getenv("BOOTSTRAP_PORT", 9020))
-    logging.info(f"Joining bootstrap node at {NODE_IP}:{BOOTSTRAP_PORT}")
 
     # calculate the new node id for the new joined node
     # first find the node that has exceeding CPU load
-    # TODO
-    # exceeding_node_host = NODE_IP
-
-    # # Original IP address as a string
-    # ip_address = exceeding_node_host
-
-    # # Split the IP address into parts
-    # parts = ip_address.split(".")
-
-    # # Convert the last part to an integer, decrease by 1, and update
-    # parts[-1] = str(int(parts[-1]) - 1)
-
-    # # Join the parts back into a string
-    # exceeding_node_host = ".".join(parts)
-
-    # exceeding_node_port = 9020
-
     pod_name = get_pod_cpu_usage(threshold_percentage=20)
     if not pod_name:
         exit(1)
@@ -288,7 +223,7 @@ else:
     logging.info(f"register node on {NODE_IP}:{NODE_PORT} with ID {new_nodeId}")
     #post_request(CLUSTER_SERVICE_HOST, CLUSTER_SERVICE_PORT, NODE_IP)
 
-    logging.info(f"Starting additional node on {NODE_IP}:{NODE_PORT} with ID {new_nodeId}") # node id is wrong for now
+    logging.info(f"Joining bootstrap node at {NODE_IP}:{BOOTSTRAP_PORT} with id {new_nodeId}") # node id is wrong for now
     node = Node(NODE_IP, NODE_PORT, new_nodeId, POD_NAME, chord_name)
     node.join(chord_name)
     #update_hpa_min_replicas(deployment_name="nodes", hpa_name="nodes-autoscaler", namespace="default")
