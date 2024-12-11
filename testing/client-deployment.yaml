@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nodes
+  name: client
 spec:
   replicas: 1 # Only one bootstrap node (the first node in the chord ring)
   selector:
     matchLabels:
-      app: node
+      app: client
   template:
     metadata:
       labels:
-        app: node
+        app: client
     spec:
       containers:
-        - name: node
-          image: lukewarm3/node_server_image:latest
+        - name: client
+          image: lukewarm3/client_image:latest
           env:
             # - name: CLUSTER_SERVICE_HOST
             #   value: "nodes-service"
@@ -37,6 +37,6 @@ spec:
             - containerPort: 9020 # Expose port 9020 for the bootstrap node
           resources:
             requests:
-              cpu: "300m"  # 1 core
+              cpu: "1000m"  # 1 core
             limits:
-              cpu: "300m"  # 1 core
+              cpu: "1000m"  # 1 core
