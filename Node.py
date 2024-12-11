@@ -127,7 +127,7 @@ class Node:
         for sock in readable:
             if sock is self.master_sock:
                 connection, addr = sock.accept()
-                logging.info(f"new connection from {addr}")
+                #logging.info(f"new connection from {addr}")
                 self.host_port_to_sock[addr] = connection
                 self.sock_to_host_port[connection] = addr
             else:
