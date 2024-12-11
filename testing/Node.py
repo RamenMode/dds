@@ -6,16 +6,18 @@ import time
 import hashlib
 from collections.abc import Iterable
 import os
+import time
 import ast  # For safely evaluating strings like "[1, 2, 3]"
 import signal
 import http.client
 from collections import defaultdict
 import random
 import logging
-from time import sleep
+from time import sleep, time
 
 '''
 Structure of requests and responses
+
 1. Value Requests
     type: value
     var_name: The name of the variable
@@ -59,7 +61,6 @@ nameserver_json_gen = lambda project, host, port, nodeid, pod: {
 def send_to_nameserver(signum, frame):
     if name_of_port:
         name_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        name_server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         payload = nameserver_json_gen(name_of_chord, name_of_host, name_of_port, nodeid_global, name_of_pod)
         name_server_socket.sendto(json.dumps(payload).encode('utf-8'), ("catalog.cse.nd.edu", 9097))
         name_server_socket.close()
@@ -71,7 +72,6 @@ class Node:
         self.host = host
         self.port = port
         self.master_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.master_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.master_sock.bind((self.host, self.port))
         self.master_sock.listen()
         self.chord_name = name_server
@@ -88,7 +88,7 @@ class Node:
         name_of_port = port
         name_of_host = host
         nodeid_global = nodeId
-
+        
 
         self.func = {}
         self.func['find_successor'] = self.find_successor # locates the successor of a given node
@@ -129,7 +129,7 @@ class Node:
         for sock in readable:
             if sock is self.master_sock:
                 connection, addr = sock.accept()
-                logging.info(f"new connection from {addr}")
+                #logging.info(f"new connection from {addr}")
                 self.host_port_to_sock[addr] = connection
                 self.sock_to_host_port[connection] = addr
             else:
@@ -142,7 +142,7 @@ class Node:
                         length_header += chunk
                     m_length = struct.unpack('!I', length_header)[0]
                     request = sock.recv(m_length)
-
+                    
                     # get the remote request in json format
                     request = json.loads(request.decode('utf-8'))
                     response = {}
@@ -168,7 +168,7 @@ class Node:
 
                         sock.sendall(struct.pack('!I', response_length))
                         sock.sendall(response_data)
-
+                        
                 except EOFError:
                     ##logging.info(f"Client {peername} disconnected")
                     sock.close()
@@ -236,11 +236,11 @@ class Node:
                 self.add_to_log("storage", request["val"][0], "update", request["val"][1])
         ##logging.info(f"storage {self.storage}", )
         return response
-
+    
     def listen(self):
         while True:
             self.read_and_respond()
-
+    
     def send_request(self, request, host, port, wait_response=True):
         while True:
             #logging.info(f'sending request to {host} {port}')
@@ -248,11 +248,10 @@ class Node:
                 if (host, port) in self.host_port_to_sock:
                     sock = self.host_port_to_sock[(host, port)]
                 else:
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                        sock.connect((host, port))
-                        self.host_port_to_sock[(host, port)] = sock
-                        self.sock_to_host_port[sock] = (host, port)
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((host, port))
+                    self.host_port_to_sock[(host, port)] = sock
+                    self.sock_to_host_port[sock] = (host, port)
                 # Send a request to the server
                 request_data = json.dumps(request).encode('utf-8')
                 request_length = len(request_data)
@@ -287,8 +286,8 @@ class Node:
                 sleep(5)
             finally:
                 self.read_and_respond(block=False)
-
-
+                
+    
     '''
     Everything here and below are functions that the node can execute on behalf of requests it receives
     The first node that initialize the request will use async_request() because it can return the response back
@@ -297,39 +296,37 @@ class Node:
 
     def async_request(self, request, host, port):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-            socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             socke.bind((self.host, 0))
             socke.listen()
             while True:
                 try:
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                        sock.connect((host, port))
-                        # Make sure the requests location is specified
-                        request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
-                        request_data = json.dumps(request).encode('utf-8')
-                        request_length = len(request_data)
-                        sock.sendall(struct.pack('!I', request_length))
-                        sock.sendall(request_data)
-                        # set a time out for receiving message
-                        socke.setblocking(False)
-
-                        # Receive the response from the server
-                        while True:
-                            try:
-                                connection, addr = socke.accept() # accept the eventual response
-                                connection.settimeout(5)
-                                length_header = b''
-                                while len(length_header) < 4:
-                                    chunk = connection.recv(4 - len(length_header)) # recv from the new socket
-                                    length_header += chunk
-                                m_length = struct.unpack('!I', length_header)[0]
-                                response = connection.recv(m_length)
-                                response = json.loads(response.decode('utf-8'))
-                                return response
-                            except Exception:
-                                self.read_and_respond(block=False)
-
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((host, port))
+                    # Make sure the requests location is specified
+                    request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
+                    request_data = json.dumps(request).encode('utf-8')
+                    request_length = len(request_data)
+                    sock.sendall(struct.pack('!I', request_length))
+                    sock.sendall(request_data)
+                    # set a time out for receiving message
+                    socke.setblocking(False)
+                    
+                    # Receive the response from the server
+                    while True:
+                        try:
+                            connection, addr = socke.accept() # accept the eventual response
+                            connection.settimeout(5)
+                            length_header = b''
+                            while len(length_header) < 4:
+                                chunk = connection.recv(4 - len(length_header)) # recv from the new socket
+                                length_header += chunk
+                            m_length = struct.unpack('!I', length_header)[0]
+                            response = connection.recv(m_length)
+                            response = json.loads(response.decode('utf-8'))
+                            return response
+                        except Exception:
+                            self.read_and_respond(block=False)
+                            
 
                 except EOFError:
                     ##logging.info(f"Client {peername} disconnected")
@@ -341,7 +338,7 @@ class Node:
                     logging.info('Unhandled exception')
                 finally:
                     self.read_and_respond(block=False)
-
+                    
     def send_items(self, hash_range):
         transfer = {}
         for key in self.storage:
@@ -352,12 +349,12 @@ class Node:
                 transfer[key] = self.storage[key]
         response = {"val": transfer, "success": True}
         return response
-
+    
     def request_items(self, host, port, hash_range):
         request = {"type": "function", "func_name": "send_items", "args": {"hash_range": hash_range}}
         response = self.send_request(request, host, port)
         return response
-
+    
     def delete_items(self, hash_range):
         for key in self.storage.copy():
             key_hash = hash_it(key) % 2**mBit
@@ -365,7 +362,7 @@ class Node:
             # if pop it now, the data can be lost forever. the requester will later send a confirmation message to confirm that it has received the data
             if between_inc_inc(hash_range[0], hash_range[1], key_hash): 
                 del self.storage[key]
-
+        
         response = {"success": True}
         return response
 
@@ -373,7 +370,7 @@ class Node:
         request = {"type": "function", "func_name": "delete_items", "args": {"hash_range": hash_range}}
         response = self.send_request(request, host, port)
         return response
-
+    
     def update_local_nameserver(self):
         self.name_server = self.read_nameserver()
         ##logging.info(f'updated local nameserver {self.name_server}')
@@ -405,7 +402,7 @@ class Node:
         '''
         request = {"type": "function", "args": {}, "func_name": "lame_request", "response": False}
         return self.send_request(request, host, port)
-
+    
     def find_successor(self, hash, asynch):  # successor of a node x defined: if node is y and pred(node) = z. If in interval (z, y]
         ##logging.info('successor function called')
         '''
@@ -419,14 +416,13 @@ class Node:
             A response object containing a val object consisting of a hostname, port, and ID
             to identify the successor of the hash
         '''
-        #logging.info(f'{self.predecessor} {self.nodeId} {self.successor}')
-        #logging.info(f"hash of val, {hash}")
+       # logging.info(f'{self.predecessor} {self.nodeId} {self.successor}')
+       # logging.info(f"hash of val, {hash}")
         if between_exc_inc(self.predecessor, self.nodeId, hash):
-            #logging.info("between exc inc 1")
+          #  logging.info("between exc inc 1")
             response = {}
             response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 socke.connect(tuple(asynch))
                 response_data = json.dumps(response).encode('utf-8')
                 request_length = len(response_data)
@@ -434,11 +430,10 @@ class Node:
                 socke.sendall(response_data)
             return None
         elif between_exc_inc(self.nodeId, self.successor, hash):
-            #logging.info("between exc inc 2")
+          #  logging.info("between exc inc 2")
             response = {}
             response = {"success": True, "val": {"port": "PLACEHOLDER", "hostname": "PLACEHOLDER", "nodeid": self.successor}}
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 socke.connect(tuple(asynch))
                 response_data = json.dumps(response).encode('utf-8')
                 request_length = len(response_data)
@@ -446,8 +441,9 @@ class Node:
                 socke.sendall(response_data)
             return None
         else:
-            #logging.info(f"finger table is {self.fingerTable}")
+        #    logging.info(f"finger table is {self.fingerTable}")
             for i in range(len(self.fingerTable) + 1):
+
                 if i < len(self.fingerTable) and i >= 0:
                     ft_i_id = self.fingerTable[i]
                 #logging.info(f"currently i = {i}, ft_i_id = {ft_i_id} {self.name_server[self.chord_name]}")
@@ -467,7 +463,6 @@ class Node:
             response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
                 ##logging.info(asynch)
-                socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 socke.connect(tuple(asynch))
                 response_data = json.dumps(response).encode('utf-8')
                 request_length = len(response_data)
@@ -479,7 +474,6 @@ class Node:
             response = {"success": True, "val": {"port": "PLACEHOLDER", "hostname": "PLACEHOLDER", "nodeid": self.predecessor}}
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
                 ##logging.info(asynch)
-                socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 socke.connect(tuple(asynch))
                 response_data = json.dumps(response).encode('utf-8')
                 request_length = len(response_data)
@@ -510,9 +504,8 @@ class Node:
         #args: The arguments
         #asynch: the host and port to send to
 
-
+    
     def create(self, name = "KLuke"):
-        logging.info(f"CREATE at {time.time()}")
         '''
         Creates an entry in the Notre Dame nameserver that is the name of our new Chord node
         Parameters:
@@ -536,7 +529,7 @@ class Node:
 
 
     def join(self, name = "KLuke"):
-        logging.info(f"JOIN at {time.time()}")
+        logging.info("JOINED: ", time())
         '''
         Invocated by the node joining the Chord. Updates the corresponding attributes
         and issues requests for other Nodes to also update
@@ -561,7 +554,7 @@ class Node:
                 ##logging.info(f"TELLING {nodeid}")
                 response = self.send_request({'type': "function", "func_name": "update_local_nameserver", "args": {}}, *self.safely_retrieve_nameserver_entry(nodeid))
                 ##logging.info(f'told {nodeid} to update nameserver')  
-
+        
         '''
         The following updates the successor and predecessor pointers and the successor's predecessor and predecessor's successor
         '''
@@ -612,7 +605,7 @@ class Node:
                     request = {"type": "value", "var_name": "predecessor", "get": True}
                     response = self.send_request(request, *self.safely_retrieve_nameserver_entry(predecessor))
                     predecessor = response["val"]
-
+                    
         # first update own fingertable
         for i in range(len(self.fingerTable)):
             node_q = (self.nodeId + 2**i) % 2**mBit
@@ -635,7 +628,7 @@ class Node:
             for key, value in response["val"].items():
                 self.storage[key] = value
                 self.add_to_log("storage", key, "update", value)
-
+  
         # send the confirmation message to the successor to confirm that it has received the new data
         response = self.confirm_items(*self.safely_retrieve_nameserver_entry(self.successor), (self.predecessor + 1, self.nodeId))
         #if response["success"] == True:
@@ -643,11 +636,11 @@ class Node:
 
         # update local nameserver again
         self.update_local_nameserver()
-
+        
         new_response = {"success": True, "val": None}
 
         return new_response
-
+    
     def _recover(self):
         if os.path.exists("sheet.ckpt"):
             with open("sheet.ckpt", "r") as file:
@@ -664,11 +657,11 @@ class Node:
                         original_key = ast.literal_eval(key)
                     except:
                         original_key = key
-
+                    
                     storage[original_key] = value
-
+                
                 self.storage = storage
-
+        
         if os.path.exists("sheet.log"):
             with open("sheet.log", "r") as file:
                 for line in file:
@@ -702,7 +695,8 @@ class Node:
                                 original_value = key_value
                             self.storage[original_key] = original_value
                     else:
-                        logging.info("unknow method in the transaction log: ", attribute)
+                        pass
+                    #    logging.info("unknow method in the transaction log: ", attribute)
 
     # if the attribute is storage, then action can be delete or update, and key_value is the value of the key when action is update
     def add_to_log(self, attribute, value, action=None, key_value=None):
@@ -712,7 +706,7 @@ class Node:
         self.logSize += 1
 
         self.compact()
-
+    
     def compact(self):
         if self.logSize == 100:
             with open("sheet.ckpt.new", "w") as file:
@@ -728,7 +722,7 @@ class Node:
                 json.dump(checkpoint_new, file)
                 file.flush()
                 os.fsync(file.fileno())
-
+            
             if os.path.exists("sheet.ckpt"):
                 os.remove("sheet.ckpt")
             os.rename("sheet.ckpt.new", "sheet.ckpt")
@@ -766,7 +760,7 @@ class Node:
         for entry in collection:
             if entry["lastheardfrom"] > latest[entry["nodeid"]]:
                 latest[entry["nodeid"]] = entry["lastheardfrom"]
-                name_server[self.chord_name][entry["nodeid"]] = (entry["host"], entry["port"])
+                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"])
         return name_server
 
     def safely_retrieve_nameserver_entry(self, key):
@@ -801,7 +795,7 @@ def between_inc_exc(ID1, ID2, key): # inclusive, exclusive [)
         return True if key >= ID1 and key < ID2 else False
     else:
         return True if key >= ID1 or  key < ID2 else False
-
+    
 def between_exc_inc(ID1, ID2, key): # inclusive, exclusive (]
     if ID1 == ID2:
         return True
@@ -810,7 +804,7 @@ def between_exc_inc(ID1, ID2, key): # inclusive, exclusive (]
         return True if key > ID1 and key <= ID2 else False
     else:
         return True if key > ID1 or key <= ID2 else False
-
+    
 def hash_it(obj): # currently can only hash ints and floats and tuples, returns raw int
     if isinstance(obj, int) or isinstance(obj, str):
         if isinstance(obj, int):
@@ -836,3 +830,6 @@ def hash_it(obj): # currently can only hash ints and floats and tuples, returns 
     else:
         #logging.info("Key is not hashable")
         return None
+
+
+        

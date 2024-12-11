@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodes
+spec:
+  replicas: 1 # Only one bootstrap node (the first node in the chord ring)
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      labels:
+        app: node
+    spec:
+      containers:
+        - name: node
+          image: lukewarm3/node_server_image:latest
+          env:
+            # - name: CLUSTER_SERVICE_HOST
+            #   value: "nodes-service"
+            # - name: CLUSTER_SERVICE_PORT
+            #   value: "9000"
+
+            # - name: NODE_HOST
+            #   value: "0.0.0.0" # bind to 0.0.0.0 instead of 127.0.0.1
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_PORT
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name  # Use pod name to derive a unique port
+            - name: NODE_ID
+              value: "20"
+          ports:
+            - containerPort: 9020 # Expose port 9020 for the bootstrap node
+          resources:
+            requests:
+              cpu: "500m"  # 1 core
+            limits:
+              cpu: "500m"  # 1 core
