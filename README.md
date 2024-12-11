@@ -1,9 +1,8 @@
 ## Simple Test of the Chord without Loading Balancing
 **Important**
-please ensure if running without k8s that this line is changed
+please ensure if running without k8s that this line is changed in the read_nameserver function across all RingClient.py and Node.py files
 ```python3
-                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"]) # should be "name" for base python, "host" for k8s run method
-
+name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"]) # should be "name" for base python, "host" for k8s run method
 ```
 If you want to test without the feature of load balancing, then in the outside directory, run in module mode
 ```bash
