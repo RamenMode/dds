@@ -1,4 +1,10 @@
 ## Simple Test of the Chord without Loading Balancing
+**Important**
+please ensure if running without k8s that this line is changed
+```python3
+                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"]) # should be "name" for base python, "host" for k8s run method
+
+```
 If you want to test without the feature of load balancing, then in the outside directory, run in module mode
 ```bash
 python3 -m dds.testing.node1
@@ -84,3 +90,40 @@ kubectl describe deployment nodes
 kubectl describe pod <pod-name>
 
 ```
+## Running the Main System with Kubernetes
+NOTE: If rerunning the system in a short interval, you have to change all instancesn of the chord name (in this case, ring24, which is easy to find in VSCode across the entire repo with a different name for discovery via the nameserver)
+### Run the Pods
+Run the script in the root directory
+```bash
+./create.sh
+```
+**Everything past this point is done in a separate terminal**
+### Add more pods
+Note that the current utilization is set at 50 or 60% in the hpa.yaml file, or the threshold of total CPU that will cause the node to split
+#### Method 1: Simulate stress using the stress module
+```bash
+kubectl get pods
+kubectl exec -it <pod_name> -- stress --cpu <number>
+```
+This will cause nodes to eventually split. Keep track of them with kubectl get pods
+#### Method 2: Change parameters in the yaml file and run the actual test
+In node-deployment.yaml
+```bash
+resources:
+  requests:
+    cpu: '500m' # decrease to lower the number of cores, this is 0.5 cores
+  limits:
+    cpu: '500m' # decrease to lower the number of cores
+```
+### Run the test
+cd into ./testing
+```bash
+./create.sh
+```
+Observe logs by running
+```bash
+kubectl get pods
+kubectl logs <client-node-id>
+```
+
+
