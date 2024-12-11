@@ -1,0 +1,53 @@
+successor,20,None,None,1733948519.686382
+predecessor,110,None,None,1733948519.7689314
+fingerTable,[20, None, None, None, None, None, None, None, None, None],None,None,1733948522.0008574
+fingerTable,[20, 20, None, None, None, None, None, None, None, None],None,None,1733948522.0032625
+fingerTable,[20, 20, 20, None, None, None, None, None, None, None],None,None,1733948522.0044818
+fingerTable,[20, 20, 20, 20, None, None, None, None, None, None],None,None,1733948522.005541
+fingerTable,[20, 20, 20, 20, 20, None, None, None, None, None],None,None,1733948522.0071044
+fingerTable,[20, 20, 20, 20, 20, 20, None, None, None, None],None,None,1733948522.0084143
+fingerTable,[20, 20, 20, 20, 20, 20, 20, None, None, None],None,None,1733948522.0095124
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, None, None],None,None,1733948522.011166
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, 20, None],None,None,1733948522.0124116
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733948522.015571
+successor,290,None,None,1733948528.656876
+fingerTable,[290, 20, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733948528.7828693
+fingerTable,[290, 290, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733948529.0300121
+fingerTable,[290, 290, 290, 20, 20, 20, 20, 20, 20, 20],None,None,1733948529.2778897
+fingerTable,[290, 290, 290, 290, 20, 20, 20, 20, 20, 20],None,None,1733948529.5258815
+fingerTable,[290, 290, 290, 290, 290, 20, 20, 20, 20, 20],None,None,1733948529.7769177
+fingerTable,[290, 290, 290, 290, 290, 290, 20, 20, 20, 20],None,None,1733948530.024875
+fingerTable,[290, 290, 290, 290, 290, 290, 290, 20, 20, 20],None,None,1733948530.273879
+storage,int,update,['tin'],1733948539.9568794
+storage,amy,update,['may'],1733948540.4128497
+storage,int,delete,None,1733948542.0632768
+storage,amy,delete,None,1733948542.2698734
+storage,fgo,update,['fog'],1733948545.1338677
+storage,guy,update,['guy'],1733948546.3342502
+storage,egl,update,['leg'],1733948547.5751038
+storage,fgo,delete,None,1733948552.2888198
+storage,guy,delete,None,1733948552.8334944
+storage,egl,delete,None,1733948553.571242
+storage,ery,update,['rye'],1733948559.6932623
+storage,ery,delete,None,1733948567.9390442
+successor,20,None,None,1733949120.066102
+predecessor,110,None,None,1733949120.1078653
+fingerTable,[20, None, None, None, None, None, None, None, None, None],None,None,1733949122.5504115
+fingerTable,[20, 20, None, None, None, None, None, None, None, None],None,None,1733949122.5514443
+fingerTable,[20, 20, 20, None, None, None, None, None, None, None],None,None,1733949122.5522616
+fingerTable,[20, 20, 20, 20, None, None, None, None, None, None],None,None,1733949122.5531096
+fingerTable,[20, 20, 20, 20, 20, None, None, None, None, None],None,None,1733949122.5538328
+fingerTable,[20, 20, 20, 20, 20, 20, None, None, None, None],None,None,1733949122.554541
+fingerTable,[20, 20, 20, 20, 20, 20, 20, None, None, None],None,None,1733949122.5552132
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, None, None],None,None,1733949122.5562317
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, 20, None],None,None,1733949122.5988865
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733949122.599703
+successor,290,None,None,1733949123.2838984
+fingerTable,[290, 20, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733949123.4099033
+fingerTable,[290, 290, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733949123.6589105
+fingerTable,[290, 290, 290, 20, 20, 20, 20, 20, 20, 20],None,None,1733949123.9099114
+fingerTable,[290, 290, 290, 290, 20, 20, 20, 20, 20, 20],None,None,1733949124.1599069
+fingerTable,[290, 290, 290, 290, 290, 20, 20, 20, 20, 20],None,None,1733949124.4079196
+fingerTable,[290, 290, 290, 290, 290, 290, 20, 20, 20, 20],None,None,1733949124.654915
+fingerTable,[290, 290, 290, 290, 290, 290, 290, 20, 20, 20],None,None,1733949124.90301
+storage,int,update,['tin'],1733949130.467394

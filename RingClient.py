@@ -18,6 +18,10 @@ class RingClient:
         self.host = host
         self.chord_name = name
         self.name_server = self._retrieve_nodes()
+        self.listening_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.listening_socket.bind((self.host, 0))
+        self.listening_socket.listen()
+        self.sending = {}
         #logging.info(f"name server is {self.name_server}")
 
     def _retrieve_nodes(self):
@@ -67,32 +71,39 @@ class RingClient:
         while True:
             #print(f'sending request to {host} {port}')
             try:
-                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                if (host, port) in self.sending:
+                    sock = self.sending[(host, port)]
+                else:
+
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    #sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                     sock.connect((host, port))
+                    self.sending[(host, port)] = sock
                     # Send a request to the server
-                    request_data = json.dumps(request).encode('utf-8')
-                    request_length = len(request_data)
-                    sock.sendall(struct.pack('!I', request_length))
-                    sock.sendall(request_data)
+                request_data = json.dumps(request).encode('utf-8')
+                request_length = len(request_data)
+                sock.sendall(struct.pack('!I', request_length))
+                sock.sendall(request_data)
 
-                    #print(f"[send_request] sending the request to {host} {port}, waiting for response")
-                    # set a time out for receiving message
-                    sock.settimeout(5)
+                #print(f"[send_request] sending the request to {host} {port}, waiting for response")
+                # set a time out for receiving message
+                sock.settimeout(5)
 
-                    # Receive the response from the server
-                    length_header = b''
-                    while len(length_header) < 4:
-                        chunk = sock.recv(4 - len(length_header))
-                        length_header += chunk
-                    m_length = struct.unpack('!I', length_header)[0]
-                    response = sock.recv(m_length)
-                    response = json.loads(response.decode('utf-8'))
-                    #print("[send_request] the response is ", response)
-                    return response
+                # Receive the response from the server
+                length_header = b''
+                while len(length_header) < 4:
+                    chunk = sock.recv(4 - len(length_header))
+                    length_header += chunk
+                m_length = struct.unpack('!I', length_header)[0]
+                response = sock.recv(m_length)
+                response = json.loads(response.decode('utf-8'))
+                #print("[send_request] the response is ", response)
+                return response
             except EOFError:
                 ##print(f"Client {peername} disconnected")
                 sock.close()
+                if (host, port) in self.sending:
+                    del self.send_request[(host, port)]
                 #print('i mean')
             except Exception as e:
                 #print(str(e))
@@ -102,45 +113,59 @@ class RingClient:
     def async_request(self, request, host, port):
         while True:
             try:
-                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                    socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                    socke.bind((self.host, 0))
-                    socke.listen()
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                        sock.connect((host, port))
-                        
-                        # Make sure the requests location is specified
-                        request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
-                        #logging.info(f"Trying socket to {host} {port} binding to {self.host} {socke.getsockname()[1]} {sock} {socke}")
-                        request_data = json.dumps(request).encode('utf-8')
-                        request_length = len(request_data)
-                        sock.sendall(struct.pack('!I', request_length))
-                        sock.sendall(request_data)
-                        # set a time out for receiving message
-                        socke.settimeout(5)
+                if not self.listening_socket:
+                    self.listening_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                    self.listening_socket.bind((self.host, 0))
+                    self.listening_socket.listen()
+                
+                try:
+                    if (host, port) in self.sending:
+                        sock = self.sending[(host, port)]
+                    else:
 
-                        # Receive the response from the server
-                        while True:
-                            try:
-                                connection, addr = socke.accept() # accept the eventual response
-                                connection.settimeout(5)
-                                length_header = b''
-                                while len(length_header) < 4:
-                                    chunk = connection.recv(4 - len(length_header)) # recv from the new socket
-                                    length_header += chunk
-                                m_length = struct.unpack('!I', length_header)[0]
-                                response = connection.recv(m_length)
-                                response = json.loads(response.decode('utf-8'))
-                                return response
-                            except Exception:
-                                break
+                        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                        #sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                        sock.connect((host, port))
+                        self.sending[(host, port)] = sock
+                    
+                    # Make sure the requests location is specified
+                    request["asynch"] = (self.host, self.listening_socket.getsockname()[1]) # the port to async send back to
+                    #logging.info(f"Trying socket to {host} {port} binding to {self.host} {socke.getsockname()[1]} {sock} {socke}")
+                    request_data = json.dumps(request).encode('utf-8')
+                    request_length = len(request_data)
+                    sock.sendall(struct.pack('!I', request_length))
+                    sock.sendall(request_data)
+                    # set a time out for receiving message
+                    self.listening_socket.settimeout(5)
+
+                    # Receive the response from the server
+                    while True:
+                        try:
+                            connection, addr = self.listening_socket.accept() # accept the eventual response
+                            connection.settimeout(5)
+                            length_header = b''
+                            while len(length_header) < 4:
+                                chunk = connection.recv(4 - len(length_header)) # recv from the new socket
+                                length_header += chunk
+                            m_length = struct.unpack('!I', length_header)[0]
+                            response = connection.recv(m_length)
+                            response = json.loads(response.decode('utf-8'))
+                            return response
+                        except Exception:
+                            break
+                except EOFError:
+                    ##print(f"Client {peername} disconnected")
+                    sock.close()
+                    if (host, port) in self.sending:
+                        del self.send_request[(host, port)]
+                    
             except EOFError:
                 ##print(f"Client {peername} disconnected")
-                sock.close()
+                self.listening_socket.close()
+                self.listening_socket = None
             except Exception as e:
-                #print(str(e))
-                #print('Unhandled exception')
+                print(str(e))
+                print('Unhandled exception')
                 sleep(5)
 
     def read_nameserver(self):

@@ -1,0 +1,20 @@
+successor,20,None,None,1733949006.3425674
+predecessor,20,None,None,1733949006.3445404
+ring_name,ring-4,None,None,1733949006.346546
+successor,20,None,None,1733949113.7416208
+predecessor,20,None,None,1733949113.742428
+ring_name,ring-4,None,None,1733949113.7430875
+predecessor,110,None,None,1733949116.0038593
+successor,110,None,None,1733949116.0859294
+fingerTable,[110, None, None, None, None, None, None, None, None, None],None,None,1733949116.2509212
+fingerTable,[110, 110, None, None, None, None, None, None, None, None],None,None,1733949116.4989738
+fingerTable,[110, 110, 110, None, None, None, None, None, None, None],None,None,1733949116.7459707
+fingerTable,[110, 110, 110, 110, None, None, None, None, None, None],None,None,1733949116.9929376
+fingerTable,[110, 110, 110, 110, 110, None, None, None, None, None],None,None,1733949117.2409313
+fingerTable,[110, 110, 110, 110, 110, 110, None, None, None, None],None,None,1733949117.4888856
+fingerTable,[110, 110, 110, 110, 110, 110, 110, None, None, None],None,None,1733949117.7399144
+predecessor,200,None,None,1733949120.1489022
+fingerTable,[110, 110, 110, 110, 110, 110, 110, 200, None, None],None,None,1733949122.381923
+predecessor,290,None,None,1733949123.200889
+fingerTable,[110, 110, 110, 110, 110, 110, 110, 200, 290, None],None,None,1733949125.8439152
+storage,abc,update,['cab'],1733949130.3098893

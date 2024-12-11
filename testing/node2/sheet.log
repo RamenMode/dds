@@ -1,0 +1,21 @@
+successor,20,None,None,1733949115.646133
+predecessor,20,None,None,1733949115.9539845
+fingerTable,[20, None, None, None, None, None, None, None, None, None],None,None,1733949117.9075103
+fingerTable,[20, 20, None, None, None, None, None, None, None, None],None,None,1733949117.909401
+fingerTable,[20, 20, 20, None, None, None, None, None, None, None],None,None,1733949117.9116478
+fingerTable,[20, 20, 20, 20, None, None, None, None, None, None],None,None,1733949117.9127948
+fingerTable,[20, 20, 20, 20, 20, None, None, None, None, None],None,None,1733949117.9139316
+fingerTable,[20, 20, 20, 20, 20, 20, None, None, None, None],None,None,1733949117.9161484
+fingerTable,[20, 20, 20, 20, 20, 20, 20, None, None, None],None,None,1733949117.9173913
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, None, None],None,None,1733949117.9184325
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, 20, None],None,None,1733949117.9207003
+fingerTable,[20, 20, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733949117.9218633
+successor,200,None,None,1733949120.2309072
+fingerTable,[200, 20, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733949120.354912
+fingerTable,[200, 200, 20, 20, 20, 20, 20, 20, 20, 20],None,None,1733949120.6019342
+fingerTable,[200, 200, 200, 20, 20, 20, 20, 20, 20, 20],None,None,1733949120.8928862
+fingerTable,[200, 200, 200, 200, 20, 20, 20, 20, 20, 20],None,None,1733949121.1818836
+fingerTable,[200, 200, 200, 200, 200, 20, 20, 20, 20, 20],None,None,1733949121.4709082
+fingerTable,[200, 200, 200, 200, 200, 200, 20, 20, 20, 20],None,None,1733949121.7588584
+fingerTable,[200, 200, 200, 200, 200, 200, 200, 20, 20, 20],None,None,1733949122.0469022
+fingerTable,[200, 200, 200, 200, 200, 200, 200, 290, 20, 20],None,None,1733949125.5119581
