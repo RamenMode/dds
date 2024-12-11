@@ -23,7 +23,7 @@ try:
     signal.signal(signal.SIGALRM, decrementk)
     signal.setitimer(signal.ITIMER_REAL, 2, 2)
 
-    chord_name = "ring32"
+    chord_name = "ring23"
 
     logging.info(f"Client {client_no} starting at {time()}")
 

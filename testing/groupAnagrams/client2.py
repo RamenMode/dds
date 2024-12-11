@@ -4,7 +4,7 @@ import sys
 import json
 import os
 
-r = RingClient("ring32", sys.argv[1] if len(sys.argv) > 1 else "0.0.0.0")
+r = RingClient("ring23", sys.argv[1] if len(sys.argv) > 1 else "0.0.0.0")
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
@@ -25,7 +25,22 @@ class Solution:
         for key in keys:
             r.delete(key)
         return result
-    
+
+def printResult(nodeId, result):
+    print(f"node with id {nodeId} has result-----------------------------------")
+    attributes = ["fingerTable", "nodeId", "host", "port", "successor", "predecessor", "storage", "ring_name"]
+    for a, v in zip(attributes, result):
+        print(f"{a} = {v}")
+
+result = r.get_all(20)
+printResult(20, result)
+result = r.get_all(110)
+printResult(110, result)
+result = r.get_all(200)
+printResult(200, result)
+result = r.get_all(290)
+printResult(290, result)
+
 s = Solution()
 
 index = 1
@@ -40,18 +55,17 @@ with open(test_json_path, "r") as file:
         print(f"--------------------------------------Test Case {index}--------------------------------------")
         
         output = s.groupAnagrams(input)
+
+        output = sorted([sorted(inner) for inner in output])
+        expect = sorted([sorted(inner) for inner in expect])
+
         print(f"output is {output}")
         print(f"expected is {expect}")
 
-        same = sorted([sorted(inner) for inner in output]) == sorted([sorted(inner) for inner in expect])
+        same =  output == expect
         print(f"They are the same: {same}")
         index += 1
 
-def printResult(nodeId, result):
-    print(f"node with id {nodeId} has result-----------------------------------")
-    attributes = ["fingerTable", "nodeId", "host", "port", "successor", "predecessor", "storage", "ring_name"]
-    for a, v in zip(attributes, result):
-        print(f"{a} = {v}")
 
 result = r.get_all(20)
 printResult(20, result)
