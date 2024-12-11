@@ -1,0 +1,12 @@
+{
+    "inputs" : [
+        ["cab","tin","pew","duh","may","ill","buy","bar","max","doc"],
+        ["hos","jew","nub","cod","old","way","fur","fla","cot","baa","leo","uzi","tho","pry","tun","hex","fog","tad","eat","sow","cop","eke","jam","arc","guy","tow","aid","ann","bus","ten","ate","ewe","roy","leg","gas","bug","jay","sup","phd"],
+        ["fig","wag","rio","dew","ivy","key","chi","sis","sea","ups","rex","ode","ala","sop","tab","car","bmw","sop","try","ola","yum","zoe","age","pot","arc","spy","try","gig","bah","map","pal","kin","two","fin","doe","ali","rye","owl","cal","jew","pan","nil","mel","gem","who","son","mys","maj","sip","ken","did","why"]
+    ],
+    "expected": [
+        [["max"],["buy"],["doc"],["may"],["ill"],["duh"],["tin"],["bar"],["pew"],["cab"]],
+        [["bug"],["leg"],["roy"],["ewe"],["ten"],["phd"],["tho"],["fla"],["cot"],["cop"],["fur"],["pry"],["uzi"],["way"],["leo"],["hex"],["sow"],["guy"],["baa"],["jay"],["hos"],["nub"],["jew"],["gas"],["tun"],["old"],["fog"],["sup"],["arc"],["tad"],["aid"],["ate","eat"],["eke"],["jam"],["tow"],["cod"],["bus"],["ann"]],
+        [["did"],["ken"],["maj"],["son"],["mel"],["nil"],["pan"],["owl"],["fin"],["kin"],["map"],["ala"],["sip"],["who"],["tab"],["rio"],["jew"],["sop","sop"],["spy"],["sea"],["sis"],["chi"],["age"],["key"],["why"],["yum"],["cal"],["ali"],["doe","ode"],["pal"],["fig"],["mys"],["ups"],["arc","car"],["bah"],["gem"],["two"],["wag"],["bmw"],["gig"],["try","try"],["rye"],["rex"],["ivy"],["ola"],["zoe"],["dew"],["pot"]]
+    ]
+}

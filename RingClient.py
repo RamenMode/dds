@@ -16,7 +16,7 @@ class RingClient:
         self.host = host
         self.chord_name = name
         self.name_server = self._retrieve_nodes()
-        logging.info(f"name server is {self.name_server}")
+        #logging.info(f"name server is {self.name_server}")
     
     def _retrieve_nodes(self):
         return self.read_nameserver()
@@ -30,6 +30,12 @@ class RingClient:
         request = {"type": "function", "func_name": "find_successor", "args": {"hash": hash_val}}
         response = self.async_request(request, *self.name_server[self.name][self.choose_node()])
         return response["val"]["nodeid"]
+
+    def get_all(self, nodeId):
+        request = {"type": "value", "var_name": "all", "get": True}
+        response = self.send_request(request, *self.name_server[self.name][nodeId])
+        #print(response)
+        return response["val"]
     
     def update(self, key, value):
         server = self.obtain_successor(key)
@@ -41,7 +47,7 @@ class RingClient:
         server = self.obtain_successor(key)
         request = {"type": "value", "var_name": "storage", "val": key, "get": True}
         response = self.send_request(request, *self.name_server[self.name][server])
-        print(response)
+        #print(response)
         return response["val"]
         
     def delete(self, key):
@@ -58,7 +64,7 @@ class RingClient:
 
     def send_request(self, request, host, port):
         while True:
-            print(f'sending request to {host} {port}')
+            #print(f'sending request to {host} {port}')
             try:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.connect((host, port))
@@ -68,7 +74,7 @@ class RingClient:
                 sock.sendall(struct.pack('!I', request_length))
                 sock.sendall(request_data)
 
-                print(f"[send_request] sending the request to {host} {port}, waiting for response")
+                #print(f"[send_request] sending the request to {host} {port}, waiting for response")
                 # set a time out for receiving message
                 sock.settimeout(5)
                 
@@ -80,15 +86,15 @@ class RingClient:
                 m_length = struct.unpack('!I', length_header)[0]
                 response = sock.recv(m_length)
                 response = json.loads(response.decode('utf-8'))
-                print("[send_request] the response is ", response)
+                #print("[send_request] the response is ", response)
                 return response
             except EOFError:
-                #print(f"Client {peername} disconnected")
+                ##print(f"Client {peername} disconnected")
                 sock.close()
-                print('i mean')
+                #print('i mean')
             except Exception as e:
-                print(str(e))
-                print('Unhandled exception')
+                #print(str(e))
+                #print('Unhandled exception')
                 sleep(5)
 
     def async_request(self, request, host, port):
@@ -99,9 +105,10 @@ class RingClient:
                     socke.listen()
                     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     sock.connect((host, port))
-                    #logging.info(f"Trying socket to {host} {port} {sock} {socke}")
+                    
                     # Make sure the requests location is specified
                     request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
+                    #logging.info(f"Trying socket to {host} {port} binding to {self.host} {socke.getsockname()[1]} {sock} {socke}")
                     request_data = json.dumps(request).encode('utf-8')
                     request_length = len(request_data)
                     sock.sendall(struct.pack('!I', request_length))
@@ -125,11 +132,11 @@ class RingClient:
                         except Exception:
                             break
             except EOFError:
-                #print(f"Client {peername} disconnected")
+                ##print(f"Client {peername} disconnected")
                 sock.close()
             except Exception as e:
-                print(str(e))
-                print('Unhandled exception')
+                #print(str(e))
+                #print('Unhandled exception')
                 sleep(5)
 
     def read_nameserver(self):
@@ -150,15 +157,15 @@ class RingClient:
             except KeyboardInterrupt:
                 exit(1)
             except Exception as e:
-                print(str(e))
+                #print(str(e))
                 pass
             time.sleep(2**counter)
             counter += 1
-            print('Attempting reconnect to name server...')
+            #print('Attempting reconnect to name server...')
         latest = defaultdict(int)
         name_server = {self.chord_name: {}}
         for entry in collection:
             if entry["lastheardfrom"] > latest[entry["nodeid"]]:
                 latest[entry["nodeid"]] = entry["lastheardfrom"]
-                name_server[self.chord_name][entry["nodeid"]] = (entry["host"], entry["port"])
+                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"])
         return name_server

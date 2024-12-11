@@ -1,0 +1,1911 @@
+--------------------------------------Test Case 1--------------------------------------
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cab']}
+{'success': True, 'val': ['cab']}
+['cab']
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tin']}
+{'success': True, 'val': ['tin']}
+['tin']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pew']}
+{'success': True, 'val': ['pew']}
+['pew']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['duh']}
+{'success': True, 'val': ['duh']}
+['duh']
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['may']}
+{'success': True, 'val': ['may']}
+['may']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ill']}
+{'success': True, 'val': ['ill']}
+['ill']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['buy']}
+{'success': True, 'val': ['buy']}
+['buy']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bar']}
+{'success': True, 'val': ['bar']}
+['bar']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['max']}
+{'success': True, 'val': ['max']}
+['max']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['doc']}
+{'success': True, 'val': ['doc']}
+['doc']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['doc']}
+{'success': True, 'val': ['doc']}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['may']}
+{'success': True, 'val': ['may']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['buy']}
+{'success': True, 'val': ['buy']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ill']}
+{'success': True, 'val': ['ill']}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tin']}
+{'success': True, 'val': ['tin']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['max']}
+{'success': True, 'val': ['max']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['duh']}
+{'success': True, 'val': ['duh']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bar']}
+{'success': True, 'val': ['bar']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cab']}
+{'success': True, 'val': ['cab']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pew']}
+{'success': True, 'val': ['pew']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+output is [['doc'], ['may'], ['buy'], ['ill'], ['tin'], ['max'], ['duh'], ['bar'], ['cab'], ['pew']]
+expected is [['max'], ['buy'], ['doc'], ['may'], ['ill'], ['duh'], ['tin'], ['bar'], ['pew'], ['cab']]
+They are the same: True
+--------------------------------------Test Case 2--------------------------------------
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['hos']}
+{'success': True, 'val': ['hos']}
+['hos']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['jew']}
+{'success': True, 'val': ['jew']}
+['jew']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['nub']}
+{'success': True, 'val': ['nub']}
+['nub']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cod']}
+{'success': True, 'val': ['cod']}
+['cod']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['old']}
+{'success': True, 'val': ['old']}
+['old']
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['way']}
+{'success': True, 'val': ['way']}
+['way']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fur']}
+{'success': True, 'val': ['fur']}
+['fur']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fla']}
+{'success': True, 'val': ['fla']}
+['fla']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cot']}
+{'success': True, 'val': ['cot']}
+['cot']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['baa']}
+{'success': True, 'val': ['baa']}
+['baa']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['leo']}
+{'success': True, 'val': ['leo']}
+['leo']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['uzi']}
+{'success': True, 'val': ['uzi']}
+['uzi']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tho']}
+{'success': True, 'val': ['tho']}
+['tho']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pry']}
+{'success': True, 'val': ['pry']}
+['pry']
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tun']}
+{'success': True, 'val': ['tun']}
+['tun']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['hex']}
+{'success': True, 'val': ['hex']}
+['hex']
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fog']}
+{'success': True, 'val': ['fog']}
+['fog']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tad']}
+{'success': True, 'val': ['tad']}
+['tad']
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['eat']}
+{'success': True, 'val': ['eat']}
+['eat']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sow']}
+{'success': True, 'val': ['sow']}
+['sow']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cop']}
+{'success': True, 'val': ['cop']}
+['cop']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['eke']}
+{'success': True, 'val': ['eke']}
+['eke']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['jam']}
+{'success': True, 'val': ['jam']}
+['jam']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['arc']}
+{'success': True, 'val': ['arc']}
+['arc']
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['guy']}
+{'success': True, 'val': ['guy']}
+['guy']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tow']}
+{'success': True, 'val': ['tow']}
+['tow']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['aid']}
+{'success': True, 'val': ['aid']}
+['aid']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ann']}
+{'success': True, 'val': ['ann']}
+['ann']
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bus']}
+{'success': True, 'val': ['bus']}
+['bus']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ten']}
+{'success': True, 'val': ['ten']}
+['ten']
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['eat']}
+{'success': True, 'val': ['eat']}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['eat', 'ate']}
+{'success': True, 'val': ['eat', 'ate']}
+['eat', 'ate']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ewe']}
+{'success': True, 'val': ['ewe']}
+['ewe']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['roy']}
+{'success': True, 'val': ['roy']}
+['roy']
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['leg']}
+{'success': True, 'val': ['leg']}
+['leg']
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['gas']}
+{'success': True, 'val': ['gas']}
+['gas']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bug']}
+{'success': True, 'val': ['bug']}
+['bug']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['jay']}
+{'success': True, 'val': ['jay']}
+['jay']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sup']}
+{'success': True, 'val': ['sup']}
+['sup']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['phd']}
+{'success': True, 'val': ['phd']}
+['phd']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tad']}
+{'success': True, 'val': ['tad']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['old']}
+{'success': True, 'val': ['old']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['nub']}
+{'success': True, 'val': ['nub']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pry']}
+{'success': True, 'val': ['pry']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['roy']}
+{'success': True, 'val': ['roy']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tho']}
+{'success': True, 'val': ['tho']}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['gas']}
+{'success': True, 'val': ['gas']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ten']}
+{'success': True, 'val': ['ten']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['baa']}
+{'success': True, 'val': ['baa']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['jew']}
+{'success': True, 'val': ['jew']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bug']}
+{'success': True, 'val': ['bug']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cop']}
+{'success': True, 'val': ['cop']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['jam']}
+{'success': True, 'val': ['jam']}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bus']}
+{'success': True, 'val': ['bus']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cod']}
+{'success': True, 'val': ['cod']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['arc']}
+{'success': True, 'val': ['arc']}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['eat', 'ate']}
+{'success': True, 'val': ['eat', 'ate']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['leo']}
+{'success': True, 'val': ['leo']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['jay']}
+{'success': True, 'val': ['jay']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sup']}
+{'success': True, 'val': ['sup']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['hos']}
+{'success': True, 'val': ['hos']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ann']}
+{'success': True, 'val': ['ann']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cot']}
+{'success': True, 'val': ['cot']}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['way']}
+{'success': True, 'val': ['way']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['aid']}
+{'success': True, 'val': ['aid']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['uzi']}
+{'success': True, 'val': ['uzi']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fur']}
+{'success': True, 'val': ['fur']}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tun']}
+{'success': True, 'val': ['tun']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['hex']}
+{'success': True, 'val': ['hex']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sow']}
+{'success': True, 'val': ['sow']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['eke']}
+{'success': True, 'val': ['eke']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fla']}
+{'success': True, 'val': ['fla']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tow']}
+{'success': True, 'val': ['tow']}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['guy']}
+{'success': True, 'val': ['guy']}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fog']}
+{'success': True, 'val': ['fog']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ewe']}
+{'success': True, 'val': ['ewe']}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['leg']}
+{'success': True, 'val': ['leg']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['phd']}
+{'success': True, 'val': ['phd']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+output is [['tad'], ['old'], ['nub'], ['pry'], ['roy'], ['tho'], ['gas'], ['ten'], ['baa'], ['jew'], ['bug'], ['cop'], ['jam'], ['bus'], ['cod'], ['arc'], ['eat', 'ate'], ['leo'], ['jay'], ['sup'], ['hos'], ['ann'], ['cot'], ['way'], ['aid'], ['uzi'], ['fur'], ['tun'], ['hex'], ['sow'], ['eke'], ['fla'], ['tow'], ['guy'], ['fog'], ['ewe'], ['leg'], ['phd']]
+expected is [['bug'], ['leg'], ['roy'], ['ewe'], ['ten'], ['phd'], ['tho'], ['fla'], ['cot'], ['cop'], ['fur'], ['pry'], ['uzi'], ['way'], ['leo'], ['hex'], ['sow'], ['guy'], ['baa'], ['jay'], ['hos'], ['nub'], ['jew'], ['gas'], ['tun'], ['old'], ['fog'], ['sup'], ['arc'], ['tad'], ['aid'], ['ate', 'eat'], ['eke'], ['jam'], ['tow'], ['cod'], ['bus'], ['ann']]
+They are the same: True
+--------------------------------------Test Case 3--------------------------------------
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fig']}
+{'success': True, 'val': ['fig']}
+['fig']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['wag']}
+{'success': True, 'val': ['wag']}
+['wag']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['rio']}
+{'success': True, 'val': ['rio']}
+['rio']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['dew']}
+{'success': True, 'val': ['dew']}
+['dew']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ivy']}
+{'success': True, 'val': ['ivy']}
+['ivy']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['key']}
+{'success': True, 'val': ['key']}
+['key']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['chi']}
+{'success': True, 'val': ['chi']}
+['chi']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sis']}
+{'success': True, 'val': ['sis']}
+['sis']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sea']}
+{'success': True, 'val': ['sea']}
+['sea']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ups']}
+{'success': True, 'val': ['ups']}
+['ups']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['rex']}
+{'success': True, 'val': ['rex']}
+['rex']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ode']}
+{'success': True, 'val': ['ode']}
+['ode']
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ala']}
+{'success': True, 'val': ['ala']}
+['ala']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sop']}
+{'success': True, 'val': ['sop']}
+['sop']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tab']}
+{'success': True, 'val': ['tab']}
+['tab']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['car']}
+{'success': True, 'val': ['car']}
+['car']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bmw']}
+{'success': True, 'val': ['bmw']}
+['bmw']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sop']}
+{'success': True, 'val': ['sop']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sop', 'sop']}
+{'success': True, 'val': ['sop', 'sop']}
+['sop', 'sop']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['try']}
+{'success': True, 'val': ['try']}
+['try']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ola']}
+{'success': True, 'val': ['ola']}
+['ola']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['yum']}
+{'success': True, 'val': ['yum']}
+['yum']
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['zoe']}
+{'success': True, 'val': ['zoe']}
+['zoe']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['age']}
+{'success': True, 'val': ['age']}
+['age']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pot']}
+{'success': True, 'val': ['pot']}
+['pot']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['car']}
+{'success': True, 'val': ['car']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['car', 'arc']}
+{'success': True, 'val': ['car', 'arc']}
+['car', 'arc']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['spy']}
+{'success': True, 'val': ['spy']}
+['spy']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['try']}
+{'success': True, 'val': ['try']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['try', 'try']}
+{'success': True, 'val': ['try', 'try']}
+['try', 'try']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['gig']}
+{'success': True, 'val': ['gig']}
+['gig']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bah']}
+{'success': True, 'val': ['bah']}
+['bah']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['map']}
+{'success': True, 'val': ['map']}
+['map']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pal']}
+{'success': True, 'val': ['pal']}
+['pal']
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['kin']}
+{'success': True, 'val': ['kin']}
+['kin']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['two']}
+{'success': True, 'val': ['two']}
+['two']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fin']}
+{'success': True, 'val': ['fin']}
+['fin']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ode']}
+{'success': True, 'val': ['ode']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ode', 'doe']}
+{'success': True, 'val': ['ode', 'doe']}
+['ode', 'doe']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ali']}
+{'success': True, 'val': ['ali']}
+['ali']
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['rye']}
+{'success': True, 'val': ['rye']}
+['rye']
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['owl']}
+{'success': True, 'val': ['owl']}
+['owl']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cal']}
+{'success': True, 'val': ['cal']}
+['cal']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['jew']}
+{'success': True, 'val': ['jew']}
+['jew']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pan']}
+{'success': True, 'val': ['pan']}
+['pan']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['nil']}
+{'success': True, 'val': ['nil']}
+['nil']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['mel']}
+{'success': True, 'val': ['mel']}
+['mel']
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['gem']}
+{'success': True, 'val': ['gem']}
+['gem']
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['who']}
+{'success': True, 'val': ['who']}
+['who']
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['son']}
+{'success': True, 'val': ['son']}
+['son']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['mys']}
+{'success': True, 'val': ['mys']}
+['mys']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['maj']}
+{'success': True, 'val': ['maj']}
+['maj']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sip']}
+{'success': True, 'val': ['sip']}
+['sip']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ken']}
+{'success': True, 'val': ['ken']}
+['ken']
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['did']}
+{'success': True, 'val': ['did']}
+['did']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': None}
+{'success': True, 'val': None}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['why']}
+{'success': True, 'val': ['why']}
+['why']
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['wag']}
+{'success': True, 'val': ['wag']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fin']}
+{'success': True, 'val': ['fin']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ali']}
+{'success': True, 'val': ['ali']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['try', 'try']}
+{'success': True, 'val': ['try', 'try']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['tab']}
+{'success': True, 'val': ['tab']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['chi']}
+{'success': True, 'val': ['chi']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['mel']}
+{'success': True, 'val': ['mel']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['age']}
+{'success': True, 'val': ['age']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['cal']}
+{'success': True, 'val': ['cal']}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['kin']}
+{'success': True, 'val': ['kin']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['spy']}
+{'success': True, 'val': ['spy']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['key']}
+{'success': True, 'val': ['key']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['jew']}
+{'success': True, 'val': ['jew']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sop', 'sop']}
+{'success': True, 'val': ['sop', 'sop']}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['son']}
+{'success': True, 'val': ['son']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['maj']}
+{'success': True, 'val': ['maj']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pal']}
+{'success': True, 'val': ['pal']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['map']}
+{'success': True, 'val': ['map']}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['zoe']}
+{'success': True, 'val': ['zoe']}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True, 'val': ['rye']}
+{'success': True, 'val': ['rye']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['fig']}
+{'success': True, 'val': ['fig']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['mys']}
+{'success': True, 'val': ['mys']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['car', 'arc']}
+{'success': True, 'val': ['car', 'arc']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['why']}
+{'success': True, 'val': ['why']}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['gem']}
+{'success': True, 'val': ['gem']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sea']}
+{'success': True, 'val': ['sea']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pot']}
+{'success': True, 'val': ['pot']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ups']}
+{'success': True, 'val': ['ups']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['rio']}
+{'success': True, 'val': ['rio']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bmw']}
+{'success': True, 'val': ['bmw']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['dew']}
+{'success': True, 'val': ['dew']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['bah']}
+{'success': True, 'val': ['bah']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sis']}
+{'success': True, 'val': ['sis']}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['did']}
+{'success': True, 'val': ['did']}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['owl']}
+{'success': True, 'val': ['owl']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ivy']}
+{'success': True, 'val': ['ivy']}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ala']}
+{'success': True, 'val': ['ala']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['nil']}
+{'success': True, 'val': ['nil']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ode', 'doe']}
+{'success': True, 'val': ['ode', 'doe']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['yum']}
+{'success': True, 'val': ['yum']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['gig']}
+{'success': True, 'val': ['gig']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['sip']}
+{'success': True, 'val': ['sip']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['two']}
+{'success': True, 'val': ['two']}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True, 'val': ['who']}
+{'success': True, 'val': ['who']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ola']}
+{'success': True, 'val': ['ola']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['ken']}
+{'success': True, 'val': ['ken']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['pan']}
+{'success': True, 'val': ['pan']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True, 'val': ['rex']}
+{'success': True, 'val': ['rex']}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9200
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9200, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9110
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9110, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9290
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9290, waiting for response
+[send_request] the response is  {'success': True}
+sending request to lukes-laptop.dhcp.nd.edu 9020
+[send_request] sending the request to lukes-laptop.dhcp.nd.edu 9020, waiting for response
+[send_request] the response is  {'success': True}
+output is [['wag'], ['fin'], ['ali'], ['try', 'try'], ['tab'], ['chi'], ['mel'], ['age'], ['cal'], ['kin'], ['spy'], ['key'], ['jew'], ['sop', 'sop'], ['son'], ['maj'], ['pal'], ['map'], ['zoe'], ['rye'], ['fig'], ['mys'], ['car', 'arc'], ['why'], ['gem'], ['sea'], ['pot'], ['ups'], ['rio'], ['bmw'], ['dew'], ['bah'], ['sis'], ['did'], ['owl'], ['ivy'], ['ala'], ['nil'], ['ode', 'doe'], ['yum'], ['gig'], ['sip'], ['two'], ['who'], ['ola'], ['ken'], ['pan'], ['rex']]
+expected is [['did'], ['ken'], ['maj'], ['son'], ['mel'], ['nil'], ['pan'], ['owl'], ['fin'], ['kin'], ['map'], ['ala'], ['sip'], ['who'], ['tab'], ['rio'], ['jew'], ['sop', 'sop'], ['spy'], ['sea'], ['sis'], ['chi'], ['age'], ['key'], ['why'], ['yum'], ['cal'], ['ali'], ['doe', 'ode'], ['pal'], ['fig'], ['mys'], ['ups'], ['arc', 'car'], ['bah'], ['gem'], ['two'], ['wag'], ['bmw'], ['gig'], ['try', 'try'], ['rye'], ['rex'], ['ivy'], ['ola'], ['zoe'], ['dew'], ['pot']]
+They are the same: True
