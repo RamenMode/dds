@@ -8,4 +8,4 @@ WORKDIR /app
 COPY ./*.py .
 
 # Command to run when the container starts
-CMD ["python", "node_server.py"]
+CMD ["python", "client.py"]

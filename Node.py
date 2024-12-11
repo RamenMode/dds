@@ -75,9 +75,12 @@ class Node:
         self.master_sock.bind((self.host, self.port))
         self.master_sock.listen()
         self.chord_name = name_server
-        self.host_port_to_sock: dict[tuple[str, int], socket.socket] = {} # map host/port tuple to a socket
+        self.receive: dict[tuple[str, int], socket.socket] = {} # map host/port tuple to a socket
+        self.sending: dict[tuple[str, int], socket.socket] = {} # map host/port tuple to a socket
         self.sock_to_host_port: dict[socket.socket, tuple[str, int]] = {}
         self.name_server = {}
+        self.ephemeral_sockets = {}
+        self.socke = None
         global name_of_chord
         global name_of_pod
         global name_of_port
@@ -122,15 +125,15 @@ class Node:
 
     def read_and_respond(self, block=True):
         if block:
-            readable, _, _ = select.select(list(self.host_port_to_sock.values()) + [self.master_sock], [], [])
+            readable, _, _ = select.select(list(self.receive.values()) + [self.master_sock], [], [])
         else:
             # the function will perform a non-blocking check
-            readable, _, _ = select.select(list(self.host_port_to_sock.values()) + [self.master_sock], [], [], 0)
+            readable, _, _ = select.select(list(self.receive.values()) + [self.master_sock], [], [], 0)
         for sock in readable:
             if sock is self.master_sock:
                 connection, addr = sock.accept()
                 #logging.info(f"new connection from {addr}")
-                self.host_port_to_sock[addr] = connection
+                self.receive[addr] = connection
                 self.sock_to_host_port[connection] = addr
             else:
                 try:
@@ -172,7 +175,7 @@ class Node:
                 except EOFError:
                     ##logging.info(f"Client {peername} disconnected")
                     sock.close()
-                    del self.host_port_to_sock[self.sock_to_host_port[sock]]
+                    del self.receive[self.sock_to_host_port[sock]]
                     del self.sock_to_host_port[sock]
                 except OSError as e:
                     if e.errno == 9:
@@ -245,12 +248,12 @@ class Node:
         while True:
             #logging.info(f'sending request to {host} {port}')
             try:
-                if (host, port) in self.host_port_to_sock:
-                    sock = self.host_port_to_sock[(host, port)]
+                if (host, port) in self.sending:
+                    sock = self.sending[(host, port)]
                 else:
                     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     sock.connect((host, port))
-                    self.host_port_to_sock[(host, port)] = sock
+                    self.sending[(host, port)] = sock
                     self.sock_to_host_port[sock] = (host, port)
                 # Send a request to the server
                 request_data = json.dumps(request).encode('utf-8')
@@ -278,7 +281,7 @@ class Node:
             except EOFError:
                 ##logging.info(f"Client {peername} disconnected")
                 sock.close()
-                del self.host_port_to_sock[self.sock_to_host_port[sock]]
+                del self.sending[self.sock_to_host_port[sock]]
                 del self.sock_to_host_port[sock]
             except Exception as e:
                 #logging.info(str(e))
@@ -295,49 +298,65 @@ class Node:
     '''
 
     def async_request(self, request, host, port):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-            socke.bind((self.host, 0))
-            socke.listen()
-            while True:
-                try:
+        while True:
+            try:
+                if not self.socke:
+                    self.socke = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    self.socke.bind((self.host, 0))
+                    self.socke.listen()
+                if (host, port) in self.sending:
+                    sock = self.sending[(host, port)]
+                else:
                     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     sock.connect((host, port))
-                    # Make sure the requests location is specified
-                    request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
-                    request_data = json.dumps(request).encode('utf-8')
-                    request_length = len(request_data)
-                    sock.sendall(struct.pack('!I', request_length))
-                    sock.sendall(request_data)
-                    # set a time out for receiving message
-                    socke.setblocking(False)
-                    
-                    # Receive the response from the server
-                    while True:
-                        try:
-                            connection, addr = socke.accept() # accept the eventual response
+                    self.sending[(host, port)] = sock
+                    self.sock_to_host_port[sock] = (host, port)
+                # Make sure the requests location is specified
+                request["asynch"] = (self.host, self.socke.getsockname()[1]) # the port to async send back to
+                request_data = json.dumps(request).encode('utf-8')
+                request_length = len(request_data)
+                sock.sendall(struct.pack('!I', request_length))
+                sock.sendall(request_data)
+                # set a time out for receiving message
+                self.socke.setblocking(False)
+                
+                # Receive the response from the server
+                while True:
+                    try:
+                        if (host, port) in self.receive:
+                            connection = self.receive[(host, port)]
+                        else:
+                            connection, addr = self.socke.accept() # accept the eventual response
                             connection.settimeout(5)
-                            length_header = b''
-                            while len(length_header) < 4:
-                                chunk = connection.recv(4 - len(length_header)) # recv from the new socket
-                                length_header += chunk
-                            m_length = struct.unpack('!I', length_header)[0]
-                            response = connection.recv(m_length)
-                            response = json.loads(response.decode('utf-8'))
-                            return response
-                        except Exception:
-                            self.read_and_respond(block=False)
-                            
+                            self.receive[(host, port)] = connection
+                            self.sock_to_host_port[connection] = (host, port)
+                        length_header = b''
+                        print("connection: ", connection.getsockname())
+                        while len(length_header) < 4:
+                            chunk = connection.recv(4 - len(length_header)) # recv from the new socket
+                            length_header += chunk
+                        m_length = struct.unpack('!I', length_header)[0]
+                        response = connection.recv(m_length)
+                        response = json.loads(response.decode('utf-8'))
+                        return response
+                    except EOFError:
+                        ##logging.info(f"Client {peername} disconnected")
+                        connection.close()
+                        del self.receive[(host, port)]
+                    except Exception:
+                        self.read_and_respond(block=False)
+                        
 
-                except EOFError:
-                    ##logging.info(f"Client {peername} disconnected")
-                    sock.close()
-                    del self.host_port_to_sock[self.sock_to_host_port[sock]]
-                    del self.sock_to_host_port[sock]
-                except Exception as e:
-                    logging.info(str(e))
-                    logging.info('Unhandled exception')
-                finally:
-                    self.read_and_respond(block=False)
+            except EOFError:
+                ##logging.info(f"Client {peername} disconnected")
+                sock.close()
+                del self.sending[self.sock_to_host_port[sock]]
+                del self.sock_to_host_port[sock]
+            except Exception as e:
+                logging.info(str(e))
+                logging.info('Unhandled exception')
+            finally:
+                self.read_and_respond(block=False)
                     
     def send_items(self, hash_range):
         transfer = {}
@@ -422,23 +441,33 @@ class Node:
           #  logging.info("between exc inc 1")
             response = {}
             response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
+            if tuple(asynch) in self.sending:
+                socke = self.sending[tuple(asynch)]
+            else:
+                socke = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 socke.connect(tuple(asynch))
-                response_data = json.dumps(response).encode('utf-8')
-                request_length = len(response_data)
-                socke.sendall(struct.pack('!I', request_length))
-                socke.sendall(response_data)
+                self.sending[tuple(asynch)] = socke
+                self.sock_to_host_port[socke] = tuple(asynch)
+            response_data = json.dumps(response).encode('utf-8')
+            request_length = len(response_data)
+            socke.sendall(struct.pack('!I', request_length))
+            socke.sendall(response_data)
             return None
         elif between_exc_inc(self.nodeId, self.successor, hash):
           #  logging.info("between exc inc 2")
             response = {}
             response = {"success": True, "val": {"port": "PLACEHOLDER", "hostname": "PLACEHOLDER", "nodeid": self.successor}}
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
+            if tuple(asynch) in self.sending:
+                socke = self.sending[tuple(asynch)]
+            else:
+                socke = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 socke.connect(tuple(asynch))
-                response_data = json.dumps(response).encode('utf-8')
-                request_length = len(response_data)
-                socke.sendall(struct.pack('!I', request_length))
-                socke.sendall(response_data)
+                self.sending[tuple(asynch)] = socke
+                self.sock_to_host_port[socke] = tuple(asynch)
+            response_data = json.dumps(response).encode('utf-8')
+            request_length = len(response_data)
+            socke.sendall(struct.pack('!I', request_length))
+            socke.sendall(response_data)
             return None
         else:
         #    logging.info(f"finger table is {self.fingerTable}")
@@ -461,24 +490,32 @@ class Node:
             ##logging.info(self.nodeId, self.successor, hash)
             response = {}
             response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                ##logging.info(asynch)
+            if tuple(asynch) in self.sending:
+                socke = self.sending[tuple(asynch)]
+            else:
+                socke = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 socke.connect(tuple(asynch))
-                response_data = json.dumps(response).encode('utf-8')
-                request_length = len(response_data)
-                socke.sendall(struct.pack('!I', request_length))
-                socke.sendall(response_data)
+                self.sending[tuple(asynch)] = socke
+                self.sock_to_host_port[socke] = tuple(asynch)
+            response_data = json.dumps(response).encode('utf-8')
+            request_length = len(response_data)
+            socke.sendall(struct.pack('!I', request_length))
+            socke.sendall(response_data)
             return None
         if between_inc_exc(self.predecessor, self.nodeId, hash):
             response = {}
             response = {"success": True, "val": {"port": "PLACEHOLDER", "hostname": "PLACEHOLDER", "nodeid": self.predecessor}}
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                ##logging.info(asynch)
+            if tuple(asynch) in self.sending:
+                socke = self.sending[tuple(asynch)]
+            else:
+                socke = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 socke.connect(tuple(asynch))
-                response_data = json.dumps(response).encode('utf-8')
-                request_length = len(response_data)
-                socke.sendall(struct.pack('!I', request_length))
-                socke.sendall(response_data)
+                self.sending[tuple(asynch)] = socke
+                self.sock_to_host_port[socke] = tuple(asynch)
+            response_data = json.dumps(response).encode('utf-8')
+            request_length = len(response_data)
+            socke.sendall(struct.pack('!I', request_length))
+            socke.sendall(response_data)
             return None
         else:
             for i in range(len(self.fingerTable) + 1):
@@ -506,6 +543,7 @@ class Node:
 
     
     def create(self, name = "KLuke"):
+        logging.info(f"CREATED: {time()}")
         '''
         Creates an entry in the Notre Dame nameserver that is the name of our new Chord node
         Parameters:
@@ -529,7 +567,7 @@ class Node:
 
 
     def join(self, name = "KLuke"):
-        logging.info("JOINED: ", time())
+        logging.info(f"JOINED: {time()}")
         '''
         Invocated by the node joining the Chord. Updates the corresponding attributes
         and issues requests for other Nodes to also update
@@ -700,7 +738,7 @@ class Node:
 
     # if the attribute is storage, then action can be delete or update, and key_value is the value of the key when action is update
     def add_to_log(self, attribute, value, action=None, key_value=None):
-        self.logFile.write(f"{attribute},{value},{action},{key_value},{time.time()}\n")
+        self.logFile.write(f"{attribute},{value},{action},{key_value}\n")
         self.logFile.flush()
         os.fsync(self.logFile.fileno())
         self.logSize += 1

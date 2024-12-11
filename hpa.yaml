@@ -15,13 +15,13 @@ spec:
         name: cpu
         target:
           type: Value
-          averageUtilization: 20 # Scale when CPU > 60%
+          averageUtilization: 50 # Scale when CPU > 50%
   behavior:
     scaleUp:
-      stabilizationWindowSeconds: 30  # Prevent too rapid scaling up
+      stabilizationWindowSeconds: 5  # Prevent too rapid scaling up
       policies:
         - type: Pods
           value: 1
-          periodSeconds: 60
+          periodSeconds: 5
     scaleDown:
       selectPolicy: Disabled

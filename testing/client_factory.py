@@ -4,5 +4,5 @@ import time
 counter = 0
 while True:
     counter += 1
-    subprocess.run(['python3', 'client.py', counter])
+    process = subprocess.Popen(['python3', 'client.py', str(counter)])
     time.sleep(10)

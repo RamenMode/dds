@@ -2,7 +2,7 @@ import socket
 import json
 import struct
 import random
-from Node import hash_it
+from .Node import hash_it
 from collections import defaultdict
 import time
 import http.client
@@ -16,6 +16,9 @@ class RingClient:
         self.host = host
         self.chord_name = name
         self.name_server = self._retrieve_nodes()
+        self.sending = {}
+        self.receive = {}
+        self.socke = None
         #logging.info(f"name server is {self.name_server}")
     
     def _retrieve_nodes(self):
@@ -66,8 +69,12 @@ class RingClient:
         while True:
             #print(f'sending request to {host} {port}')
             try:
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.connect((host, port))
+                if (host, port) in self.sending:
+                    sock = self.sending[(host, port)]
+                else:
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((host, port))
+                    self.sending[(host, port)] = sock
                 # Send a request to the server
                 request_data = json.dumps(request).encode('utf-8')
                 request_length = len(request_data)
@@ -91,6 +98,8 @@ class RingClient:
             except EOFError:
                 ##print(f"Client {peername} disconnected")
                 sock.close()
+                if (host, port) in self.sending:
+                    del self.sending[(host, port)]
                 #print('i mean')
             except Exception as e:
                 #print(str(e))
@@ -100,40 +109,57 @@ class RingClient:
     def async_request(self, request, host, port):
         while True:
             try:
-                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                    socke.bind((self.host, 0))
-                    socke.listen()
+                if not self.socke:
+                    self.socke = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    self.socke.bind((self.host, 0))
+                    self.socke.listen()
+                
+                if (host, port) in self.sending:
+                    sock = self.sending[(host, port)]
+                else:
                     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     sock.connect((host, port))
-                    
-                    # Make sure the requests location is specified
-                    request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
-                    #logging.info(f"Trying socket to {host} {port} binding to {self.host} {socke.getsockname()[1]} {sock} {socke}")
-                    request_data = json.dumps(request).encode('utf-8')
-                    request_length = len(request_data)
-                    sock.sendall(struct.pack('!I', request_length))
-                    sock.sendall(request_data)
-                    # set a time out for receiving message
-                    socke.settimeout(5)
-                    
-                    # Receive the response from the server
-                    while True:
-                        try:
-                            connection, addr = socke.accept() # accept the eventual response
+                    self.sending[(host, port)] = sock
+                
+                # Make sure the requests location is specified
+                request["asynch"] = (self.host, self.socke.getsockname()[1]) # the port to async send back to
+                #logging.info(f"Trying socket to {host} {port} binding to {self.host} {socke.getsockname()[1]} {sock} {socke}")
+                request_data = json.dumps(request).encode('utf-8')
+                request_length = len(request_data)
+                sock.sendall(struct.pack('!I', request_length))
+                sock.sendall(request_data)
+                # set a time out for receiving message
+                self.socke.settimeout(5)
+                
+                # Receive the response from the server
+                while True:
+                    try:
+                        if (host, port) in self.receive:
+                            connection = self.receive[(host, port)]
+                        else:
+                            connection, addr = self.socke.accept() # accept the eventual response
                             connection.settimeout(5)
-                            length_header = b''
-                            while len(length_header) < 4:
-                                chunk = connection.recv(4 - len(length_header)) # recv from the new socket
-                                length_header += chunk
-                            m_length = struct.unpack('!I', length_header)[0]
-                            response = connection.recv(m_length)
-                            response = json.loads(response.decode('utf-8'))
-                            return response
-                        except Exception:
-                            break
+                            self.receive[(host, port)] = connection
+                        length_header = b''
+                        print(connection.getsockname())
+                        while len(length_header) < 4:
+                            chunk = connection.recv(4 - len(length_header)) # recv from the new socket
+                            length_header += chunk
+                        m_length = struct.unpack('!I', length_header)[0]
+                        response = connection.recv(m_length)
+                        response = json.loads(response.decode('utf-8'))
+                        return response
+                    except EOFError:
+                        connection.close()
+                        if (host, port) in self.receive:
+                            del self.receive[(host, port)]
+                    except Exception:
+                        break
             except EOFError:
                 ##print(f"Client {peername} disconnected")
                 sock.close()
+                if (host, port) in self.sending:
+                    del self.sending[(host, port)]
             except Exception as e:
                 #print(str(e))
                 #print('Unhandled exception')

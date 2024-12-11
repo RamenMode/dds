@@ -68,6 +68,8 @@ kubectl get pods
 
 Useful commands
 ```bash
+kubectl scale deployment nodes --replicas=2
+
 // inspect the running container interactively
 kubectl exec -it <pod_name> -- /bin/sh
 
@@ -83,4 +85,11 @@ kubectl describe deployment nodes
 // describe the deployment of the pod
 kubectl describe pod <pod-name>
 
+```
+
+```bash
+docker build -t client_image .
+
+docker tag client_image lukewarm3/client_image:latest
+docker push lukewarm3/client_image:latest
 ```
