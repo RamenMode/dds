@@ -59,7 +59,6 @@ nameserver_json_gen = lambda project, host, port, nodeid, pod: {
 def send_to_nameserver(signum, frame):
     if name_of_port:
         name_server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        name_server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         payload = nameserver_json_gen(name_of_chord, name_of_host, name_of_port, nodeid_global, name_of_pod)
         name_server_socket.sendto(json.dumps(payload).encode('utf-8'), ("catalog.cse.nd.edu", 9097))
         name_server_socket.close()
@@ -71,7 +70,6 @@ class Node:
         self.host = host
         self.port = port
         self.master_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.master_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.master_sock.bind((self.host, self.port))
         self.master_sock.listen()
         self.chord_name = name_server
@@ -248,11 +246,10 @@ class Node:
                 if (host, port) in self.host_port_to_sock:
                     sock = self.host_port_to_sock[(host, port)]
                 else:
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                        sock.connect((host, port))
-                        self.host_port_to_sock[(host, port)] = sock
-                        self.sock_to_host_port[sock] = (host, port)
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((host, port))
+                    self.host_port_to_sock[(host, port)] = sock
+                    self.sock_to_host_port[sock] = (host, port)
                 # Send a request to the server
                 request_data = json.dumps(request).encode('utf-8')
                 request_length = len(request_data)
@@ -297,38 +294,36 @@ class Node:
 
     def async_request(self, request, host, port):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-            socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             socke.bind((self.host, 0))
             socke.listen()
             while True:
                 try:
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                        sock.connect((host, port))
-                        # Make sure the requests location is specified
-                        request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
-                        request_data = json.dumps(request).encode('utf-8')
-                        request_length = len(request_data)
-                        sock.sendall(struct.pack('!I', request_length))
-                        sock.sendall(request_data)
-                        # set a time out for receiving message
-                        socke.setblocking(False)
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((host, port))
+                    # Make sure the requests location is specified
+                    request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
+                    request_data = json.dumps(request).encode('utf-8')
+                    request_length = len(request_data)
+                    sock.sendall(struct.pack('!I', request_length))
+                    sock.sendall(request_data)
+                    # set a time out for receiving message
+                    socke.setblocking(False)
 
-                        # Receive the response from the server
-                        while True:
-                            try:
-                                connection, addr = socke.accept() # accept the eventual response
-                                connection.settimeout(5)
-                                length_header = b''
-                                while len(length_header) < 4:
-                                    chunk = connection.recv(4 - len(length_header)) # recv from the new socket
-                                    length_header += chunk
-                                m_length = struct.unpack('!I', length_header)[0]
-                                response = connection.recv(m_length)
-                                response = json.loads(response.decode('utf-8'))
-                                return response
-                            except Exception:
-                                self.read_and_respond(block=False)
+                    # Receive the response from the server
+                    while True:
+                        try:
+                            connection, addr = socke.accept() # accept the eventual response
+                            connection.settimeout(5)
+                            length_header = b''
+                            while len(length_header) < 4:
+                                chunk = connection.recv(4 - len(length_header)) # recv from the new socket
+                                length_header += chunk
+                            m_length = struct.unpack('!I', length_header)[0]
+                            response = connection.recv(m_length)
+                            response = json.loads(response.decode('utf-8'))
+                            return response
+                        except Exception:
+                            self.read_and_respond(block=False)
 
 
                 except EOFError:
@@ -426,7 +421,6 @@ class Node:
             response = {}
             response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 socke.connect(tuple(asynch))
                 response_data = json.dumps(response).encode('utf-8')
                 request_length = len(response_data)
@@ -438,7 +432,6 @@ class Node:
             response = {}
             response = {"success": True, "val": {"port": "PLACEHOLDER", "hostname": "PLACEHOLDER", "nodeid": self.successor}}
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 socke.connect(tuple(asynch))
                 response_data = json.dumps(response).encode('utf-8')
                 request_length = len(response_data)
@@ -467,7 +460,6 @@ class Node:
             response = {"success": True, "val": {"port": self.port, "hostname": self.host, "nodeid": self.nodeId}}
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
                 ##logging.info(asynch)
-                socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 socke.connect(tuple(asynch))
                 response_data = json.dumps(response).encode('utf-8')
                 request_length = len(response_data)
@@ -479,7 +471,6 @@ class Node:
             response = {"success": True, "val": {"port": "PLACEHOLDER", "hostname": "PLACEHOLDER", "nodeid": self.predecessor}}
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
                 ##logging.info(asynch)
-                socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 socke.connect(tuple(asynch))
                 response_data = json.dumps(response).encode('utf-8')
                 request_length = len(response_data)

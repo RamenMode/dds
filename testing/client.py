@@ -21,7 +21,7 @@ def decrementk(signum, frame):
 signal.signal(signal.SIGALRM, decrementk)
 signal.setitimer(signal.ITIMER_REAL, 2, 2)
 
-chord_name = "ring20"
+chord_name = "ring22"
 
 r = RingClient(chord_name, os.getenv('NODE_IP'))
 

@@ -2,7 +2,7 @@ import socket
 import json
 import struct
 import random
-from Node import hash_it
+from .Node import hash_it
 from collections import defaultdict
 import time
 import http.client

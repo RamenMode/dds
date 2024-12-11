@@ -2,7 +2,7 @@ import socket
 import json
 import struct
 import random
-from Node import hash_it
+from .Node import hash_it
 from collections import defaultdict
 import time
 import http.client
@@ -65,29 +65,28 @@ class RingClient:
         while True:
             #print(f'sending request to {host} {port}')
             try:
-                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                    sock.connect((host, port))
-                    # Send a request to the server
-                    request_data = json.dumps(request).encode('utf-8')
-                    request_length = len(request_data)
-                    sock.sendall(struct.pack('!I', request_length))
-                    sock.sendall(request_data)
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.connect((host, port))
+                # Send a request to the server
+                request_data = json.dumps(request).encode('utf-8')
+                request_length = len(request_data)
+                sock.sendall(struct.pack('!I', request_length))
+                sock.sendall(request_data)
 
-                    #print(f"[send_request] sending the request to {host} {port}, waiting for response")
-                    # set a time out for receiving message
-                    sock.settimeout(5)
+                #print(f"[send_request] sending the request to {host} {port}, waiting for response")
+                # set a time out for receiving message
+                sock.settimeout(5)
 
-                    # Receive the response from the server
-                    length_header = b''
-                    while len(length_header) < 4:
-                        chunk = sock.recv(4 - len(length_header))
-                        length_header += chunk
-                    m_length = struct.unpack('!I', length_header)[0]
-                    response = sock.recv(m_length)
-                    response = json.loads(response.decode('utf-8'))
-                    #print("[send_request] the response is ", response)
-                    return response
+                # Receive the response from the server
+                length_header = b''
+                while len(length_header) < 4:
+                    chunk = sock.recv(4 - len(length_header))
+                    length_header += chunk
+                m_length = struct.unpack('!I', length_header)[0]
+                response = sock.recv(m_length)
+                response = json.loads(response.decode('utf-8'))
+                #print("[send_request] the response is ", response)
+                return response
             except EOFError:
                 ##print(f"Client {peername} disconnected")
                 sock.close()
@@ -101,38 +100,36 @@ class RingClient:
         while True:
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socke:
-                    socke.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                     socke.bind((self.host, 0))
                     socke.listen()
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-                        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                        sock.connect((host, port))
-                        
-                        # Make sure the requests location is specified
-                        request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
-                        #logging.info(f"Trying socket to {host} {port} binding to {self.host} {socke.getsockname()[1]} {sock} {socke}")
-                        request_data = json.dumps(request).encode('utf-8')
-                        request_length = len(request_data)
-                        sock.sendall(struct.pack('!I', request_length))
-                        sock.sendall(request_data)
-                        # set a time out for receiving message
-                        socke.settimeout(5)
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    sock.connect((host, port))
+                    
+                    # Make sure the requests location is specified
+                    request["asynch"] = (self.host, socke.getsockname()[1]) # the port to async send back to
+                    #logging.info(f"Trying socket to {host} {port} binding to {self.host} {socke.getsockname()[1]} {sock} {socke}")
+                    request_data = json.dumps(request).encode('utf-8')
+                    request_length = len(request_data)
+                    sock.sendall(struct.pack('!I', request_length))
+                    sock.sendall(request_data)
+                    # set a time out for receiving message
+                    socke.settimeout(5)
 
-                        # Receive the response from the server
-                        while True:
-                            try:
-                                connection, addr = socke.accept() # accept the eventual response
-                                connection.settimeout(5)
-                                length_header = b''
-                                while len(length_header) < 4:
-                                    chunk = connection.recv(4 - len(length_header)) # recv from the new socket
-                                    length_header += chunk
-                                m_length = struct.unpack('!I', length_header)[0]
-                                response = connection.recv(m_length)
-                                response = json.loads(response.decode('utf-8'))
-                                return response
-                            except Exception:
-                                break
+                    # Receive the response from the server
+                    while True:
+                        try:
+                            connection, addr = socke.accept() # accept the eventual response
+                            connection.settimeout(5)
+                            length_header = b''
+                            while len(length_header) < 4:
+                                chunk = connection.recv(4 - len(length_header)) # recv from the new socket
+                                length_header += chunk
+                            m_length = struct.unpack('!I', length_header)[0]
+                            response = connection.recv(m_length)
+                            response = json.loads(response.decode('utf-8'))
+                            return response
+                        except Exception:
+                            break
             except EOFError:
                 ##print(f"Client {peername} disconnected")
                 sock.close()
@@ -169,5 +166,5 @@ class RingClient:
         for entry in collection:
             if entry["lastheardfrom"] > latest[entry["nodeid"]]:
                 latest[entry["nodeid"]] = entry["lastheardfrom"]
-                name_server[self.chord_name][entry["nodeid"]] = (entry["host"], entry["port"])
+                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"])
         return name_server
