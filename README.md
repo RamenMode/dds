@@ -10,9 +10,7 @@ python3 -m dds.testing.node1
 python3 -m dds.testing.node2
 python3 -m dds.testing.node3
 python3 -m dds.testing.node4
-python3 -m dds.testing.client1
-python3 -m dds.testing.node7
-python3 -m dds.testing.node5
+python3 -m dds.testing.groupAnagrams.client2
 ```
 Also make sure the line in read_nameserver(self) in Node.py and RingClinet.py is
 ```python
