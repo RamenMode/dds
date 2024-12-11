@@ -14,19 +14,18 @@ client_no = os.getenv("NODE_PORT")
 def decrementk(signum, frame):
     global current
     global k
-    logging.info(f"{os.getenv(client_no)}, {current}")
+    logging.info(f"{client_no}, {current}")
     current = 0
     return k - 0.2 if k != 0 else 0
 
 signal.signal(signal.SIGALRM, decrementk)
 signal.setitimer(signal.ITIMER_REAL, 2, 2)
 
-chord_name = "ring23"
-
-r = RingClient(chord_name, os.getenv('NODE_IP'))
+chord_name = "ring28"
 
 logging.info(f"Client {client_no} starting at {time()}")
 
+r = RingClient(chord_name, os.getenv('NODE_IP'))
 while True:
     start = time()
     key = str(uuid.uuid4())[:8]
