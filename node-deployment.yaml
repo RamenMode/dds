@@ -37,6 +37,6 @@ spec:
             - containerPort: 9020 # Expose port 9020 for the bootstrap node
           resources:
             requests:
-              cpu: "300m"  # 1 core
+              cpu: "500m"  # 1 core
             limits:
-              cpu: "300m"  # 1 core
+              cpu: "500m"  # 1 core

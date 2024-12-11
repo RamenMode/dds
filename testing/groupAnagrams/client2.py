@@ -4,7 +4,7 @@ import sys
 import json
 import os
 
-r = RingClient("ring28", sys.argv[1] if len(sys.argv) > 1 else "0.0.0.0")
+r = RingClient("ring20", sys.argv[1] if len(sys.argv) > 1 else "0.0.0.0")
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
