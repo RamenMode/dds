@@ -169,7 +169,7 @@ NODE_ID = os.getenv("NODE_ID", 20)        # Default: 20
 BASE_PORT = 9000
 NODE_PORT = BASE_PORT + int(hashlib.md5(POD_NAME.encode()).hexdigest(), 16) % 1000 
 
-chord_name = "ring22"
+chord_name = "ring23"
 
 # check if this is the first node
 is_bootstrap = check_if_bootstrap()
