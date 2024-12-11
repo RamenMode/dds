@@ -2,7 +2,8 @@ import socket
 import json
 import struct
 import random
-from .Node import hash_it
+import hashlib
+from collections.abc import Iterable
 from collections import defaultdict
 import time
 import http.client
@@ -166,5 +167,31 @@ class RingClient:
         for entry in collection:
             if entry["lastheardfrom"] > latest[entry["nodeid"]]:
                 latest[entry["nodeid"]] = entry["lastheardfrom"]
-                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"])
+                name_server[self.chord_name][entry["nodeid"]] = (entry["host"], entry["port"])
         return name_server
+
+def hash_it(obj): # currently can only hash ints and floats and tuples, returns raw int
+    if isinstance(obj, int) or isinstance(obj, str):
+        if isinstance(obj, int):
+            bytes = struct.pack('>I', obj)
+        else:
+            bytes = obj.encode('utf-8')
+        hash_obj = hashlib.sha256()
+        hash_obj.update(bytes)
+        hex_string = hash_obj.hexdigest()
+        hash_val = int(hex_string, 16)
+        ##logging.info(f"hash of {obj} { hash_val % 1024}")
+        return hash_val
+    if isinstance(obj, Iterable):
+        total = 0
+        for ele in obj:
+            if isinstance(ele, int) or isinstance(ele, str):
+                hash_num = hash_it(ele)
+                total += hash_num
+            else:
+                #logging.info("Contained element is not hashable")
+                return None
+        return total
+    else:
+        #logging.info("Key is not hashable")
+        return None
