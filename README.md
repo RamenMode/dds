@@ -6,10 +6,10 @@ name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"]) #
 ```
 If you want to test without the feature of load balancing, then in the outside directory, run in module mode
 ```bash
-python3 -m dds.testing.node1
-python3 -m dds.testing.node2
-python3 -m dds.testing.node3
-python3 -m dds.testing.node4
+python3 -m dds.testing.node1.node1
+python3 -m dds.testing.node2.node2
+python3 -m dds.testing.node3.node3
+python3 -m dds.testing.node4.node4
 python3 -m dds.testing.groupAnagrams.client2
 ```
 Also make sure the line in read_nameserver(self) in Node.py and RingClinet.py is

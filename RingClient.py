@@ -9,6 +9,8 @@ import http.client
 import logging
 from time import sleep
 
+logging.basicConfig(level=logging.INFO)
+
 class RingClient:
 
     def __init__(self, name: str = "KLuke", host='0.0.0.0'):
@@ -146,10 +148,16 @@ class RingClient:
         # Retry lookup with exponential time for retries
         while True:
             try:
+                #logging.info(f"start read_nameserver")
                 conn = http.client.HTTPConnection("catalog.cse.nd.edu", 9097)
+                #logging.info(f"HTTP connection")
                 conn.request('GET', '/query.json')
                 raw = conn.getresponse()
-                all_projects = json.loads(raw.read().decode('utf-8'))
+                #logging.info(f"raw is {raw}")
+                raw_data = raw.read().decode('utf-8', errors='replace')  # Decode with error replacement
+                #logging.info(f"Raw data received: {raw_data}")
+                all_projects = json.loads(raw_data)
+                #logging.info(f"all projects are {all_projects}")
                 collection = []
                 for proj in all_projects:
                     if "type" in proj and proj["type"] == "distsys-data-store" and "owner" in proj and proj["owner"] == "kxue2" and "project" in proj and proj["project"] == self.chord_name:
@@ -159,7 +167,7 @@ class RingClient:
             except KeyboardInterrupt:
                 exit(1)
             except Exception as e:
-                #print(str(e))
+                print(str(e))
                 pass
             time.sleep(2**counter)
             counter += 1
@@ -169,5 +177,5 @@ class RingClient:
         for entry in collection:
             if entry["lastheardfrom"] > latest[entry["nodeid"]]:
                 latest[entry["nodeid"]] = entry["lastheardfrom"]
-                name_server[self.chord_name][entry["nodeid"]] = (entry["host"], entry["port"])
+                name_server[self.chord_name][entry["nodeid"]] = (entry["name"], entry["port"])
         return name_server

@@ -115,8 +115,10 @@ class Node:
 
         # checkpoint and logging
         self.logSize = 0
-        self.logFile = open("sheet.log", "a")
-        #self._recover()
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        log = os.path.join(script_dir, "sheet.log")
+        self.logFile = open(log, "a")
+        self._recover()
 
     def read_and_respond(self, block=True):
         if block:
@@ -127,7 +129,7 @@ class Node:
         for sock in readable:
             if sock is self.master_sock:
                 connection, addr = sock.accept()
-                #logging.info(f"new connection from {addr}")
+                logging.info(f"new connection from {addr}")
                 self.host_port_to_sock[addr] = connection
                 self.sock_to_host_port[connection] = addr
             else:
@@ -640,60 +642,69 @@ class Node:
         return new_response
 
     def _recover(self):
-        if os.path.exists("sheet.ckpt"):
-            with open("sheet.ckpt", "r") as file:
-                checkpoint = json.load(file)
-                self.fingerTable = json.loads(checkpoint["fingerTable"])
-                self.successor = int(checkpoint["successor"])
-                self.predecessor = int(checkpoint["successor"])
-                self.ring_name = checkpoint["ring_name"]
+        try:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            ckpt = os.path.join(script_dir, "sheet.ckpt")
+            if os.path.exists(ckpt):
+                logging.info("open sheet.ckpt")
+                with open(ckpt, "r") as file:
+                    checkpoint = json.load(file)
+                    self.fingerTable = checkpoint["fingerTable"]
+                    self.successor = int(checkpoint["successor"])
+                    self.predecessor = int(checkpoint["successor"])
+                    self.ring_name = checkpoint["ring_name"]
 
-                json_storage = checkpoint["storage"]
-                storage = {}
-                for key, value in json_storage.items():
-                    try:
-                        original_key = ast.literal_eval(key)
-                    except:
-                        original_key = key
-
-                    storage[original_key] = value
-
-                self.storage = storage
-
-        if os.path.exists("sheet.log"):
-            with open("sheet.log", "r") as file:
-                for line in file:
-                    self.logSize += 1
-                    operations = line.split(",")
-                    attribute = operations[0]
-                    value = operations[1]
-                    action = operations[2]
-                    key_value = operations[3]
-                    if attribute == "fingertable":
-                        self.fingerTable = json.loads(value)
-                    elif attribute == "successor":
-                        self.successor = int(value)
-                    elif attribute == "predecessor":
-                        self.predecessor = int(value)
-                    elif attribute == "ring_name":
-                        self.ring_name = value
-                    elif attribute == "storage":
-                        # the value is string now, convert it to corresponding type of key
+                    json_storage = checkpoint["storage"]
+                    storage = {}
+                    for key, value in json_storage.items():
                         try:
-                            original_key = ast.literal_eval(value)
+                            original_key = ast.literal_eval(key)
                         except:
-                            original_key = value
+                            original_key = key
 
-                        if action == "delete":
-                            del self.storage[original_key]
-                        elif action == "update":
+                        storage[original_key] = value
+
+                    self.storage = storage
+
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            log = os.path.join(script_dir, "sheet.log")
+            if os.path.exists(log):
+                logging.info("open sheet.log")
+                with open(log, "r") as file:
+                    for line in file:
+                        self.logSize += 1
+                        operations = line.split(",")
+                        attribute = operations[0]
+                        value = operations[1]
+                        action = operations[2]
+                        key_value = operations[3]
+                        if attribute == "fingerTable":
+                            self.fingerTable = json.loads(value)
+                        elif attribute == "successor":
+                            self.successor = int(value)
+                        elif attribute == "predecessor":
+                            self.predecessor = int(value)
+                        elif attribute == "ring_name":
+                            self.ring_name = value
+                        elif attribute == "storage":
+                            # the value is string now, convert it to corresponding type of key
                             try:
-                                original_value = ast.literal_eval(key_value)
+                                original_key = ast.literal_eval(value)
                             except:
-                                original_value = key_value
-                            self.storage[original_key] = original_value
-                    else:
-                        logging.info("unknow method in the transaction log: ", attribute)
+                                original_key = value
+
+                            if action == "delete":
+                                del self.storage[original_key]
+                            elif action == "update":
+                                try:
+                                    original_value = ast.literal_eval(key_value)
+                                except:
+                                    original_value = key_value
+                                self.storage[original_key] = original_value
+                        else:
+                            logging.info(f"unknow method in the transaction log: {attribute}")
+        except Exception as e:
+            print("exception is ", e)
 
     # if the attribute is storage, then action can be delete or update, and key_value is the value of the key when action is update
     def add_to_log(self, attribute, value, action=None, key_value=None):
@@ -706,7 +717,13 @@ class Node:
 
     def compact(self):
         if self.logSize == 100:
-            with open("sheet.ckpt.new", "w") as file:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            ckpt_new = os.path.join(script_dir, "sheet.ckpt.new")
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            ckpt = os.path.join(script_dir, "sheet.ckpt")
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            log = os.path.join(script_dir, "sheet.log")
+            with open(ckpt_new, "w") as file:
                 checkpoint_new = {}
                 checkpoint_new["fingerTable"] = self.fingerTable
                 checkpoint_new["successor"] = self.successor
@@ -720,12 +737,12 @@ class Node:
                 file.flush()
                 os.fsync(file.fileno())
 
-            if os.path.exists("sheet.ckpt"):
-                os.remove("sheet.ckpt")
-            os.rename("sheet.ckpt.new", "sheet.ckpt")
-            if os.path.exists("sheet.log"):
-                os.remove("sheet.log")
-            self.logFile = open("sheet.log", "a")
+            if os.path.exists(ckpt):
+                os.remove(ckpt)
+            os.rename(ckpt_new, ckpt)
+            if os.path.exists(log):
+                os.remove(log)
+            self.logFile = open(log, "a")
 
             self.logSize = 0
 
